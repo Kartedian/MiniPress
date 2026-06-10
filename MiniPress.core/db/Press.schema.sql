@@ -1,5 +1,5 @@
 -- Adminer 4.17.1 MySQL 11.7.2-MariaDB-ubu2404 dump
-use giftbox;
+use MiniPress;
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -7,7 +7,7 @@ SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `Article`;
-CREATE TABLE `box` (
+CREATE TABLE `Article` (
   `id` varchar(128) NOT NULL,
   `Titre` varchar(64) NOT NULL,
   `resumer` text NOT NULL,
