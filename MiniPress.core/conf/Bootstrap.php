@@ -17,3 +17,19 @@ if ($config !== false) {
     $db->setAsGlobal();
     $db->bootEloquent();
 }
+
+// --- Application --------------------------------------------------------------
+$app = AppFactory::create();
+
+$twig = Twig::create(__DIR__ . '/../src/webui/views', ['cache' => false]);
+$app->add(TwigMiddleware::create($app, $twig));
+
+// --- Middleware -------------------------------------------------------------------
+$app->addRoutingMiddleware();
+$app->addErrorMiddleware(true, true, true);
+
+// --- Routes ------------------------------------------------------------------------
+$routes = require __DIR__ . '/Routes.php';
+$app = $routes($app);
+
+return $app;
