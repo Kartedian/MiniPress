@@ -1,0 +1,51 @@
+networks:
+  net_minipress:
+    driver: bridge
+
+services:
+  core:
+    build:
+      context: build
+      dockerfile: 8.5-cli.Dockerfile
+    ports:
+      - "13887:80"
+    volumes :
+      - ./MiniPress.core/:/var/php
+    working_dir: /var/php
+    networks:
+      - net_minipress
+    depends_on:
+      sql:
+        condition: service_healthy
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public /var/php/public/router.php"
+
+
+#############################
+# mariadb + adminer
+#############################
+  sql:
+    image: mariadb:latest
+    env_file:
+      - ./MiniPress.core/conf/.database_env
+    volumes:
+      - minipress_voldb:/var/lib/mysql
+    networks:
+      net_minipress:
+        aliases:
+          - db_minipress
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  adminer:
+    image: adminer
+    ports:
+      - "13888:8080"
+    networks:
+      - net_minipress
+
+volumes:
+  minipress_voldb:
