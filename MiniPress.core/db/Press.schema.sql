@@ -1,5 +1,5 @@
 -- Adminer 4.17.1 MySQL 11.7.2-MariaDB-ubu2404 dump
-use MiniPress;
+use minipress;
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -12,7 +12,7 @@ CREATE TABLE `Article` (
   `Titre` varchar(64) NOT NULL,
   `resumer` text NOT NULL,
   `Contenue` text DEFAULT NULL,
-  `Date` DATETIME default ,
+  `Date` DATETIME DEFAULT NOW(),
   `Categorie` tinyint(4) NOT NULL DEFAULT 0,
   `ID-Auteur` varchar(128) NOT NULL,
   `Etats` INT NOT NULL DEFAULT 0,
