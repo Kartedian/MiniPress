@@ -16,5 +16,13 @@ class Article extends Model{
 
     public $timestamps = false;
 
-    protected $fillable = ['Titre', 'resumer', 'Contenue', 'Date', 'Categorie', 'ID-Auteur', 'Etats'];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_auteur', 'id');
+    }
+
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class, 'categorie', 'id');
+    }
 }
