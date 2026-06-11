@@ -1,16 +1,21 @@
 <?php
 
-use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
-use Dwm\MiniPress\webui\ArticleController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Views\Twig;
 
-return function (App $app): App {
+//WebUI
+use Dwm\MiniPress\webui\ArticleController;
 
-    $catalogueService  = new CatalogueService();
-    $articleController = new ArticleController($catalogueService);
+// API
+use Dwm\MiniPress\api\GetCategoriesApi;
+use Dwm\MiniPress\api\GetArticlesApi;
+use Dwm\MiniPress\api\GetArticleInfoApi;
+use Dwm\MiniPress\api\GetArticlesFromCategoriesApi;
+use Dwm\MiniPress\api\GetArticlesByAuteurIdApi;
+
+return function (App $app): App {
 
     //Accueil
     $app->get('/', function (Request $request, Response $response): Response {
@@ -19,8 +24,17 @@ return function (App $app): App {
     });
 
     //Articles
-    $app->get('/articles/creer', [$articleController, 'showForm']);
-    $app->post('/articles/creer', [$articleController, 'traiterForm']);
+    //GET
+    $app->get('/articles/creer', ArticleController::class)->setName('showForm');
+    //POST
+    $app->post('/articles/creer', ArticleController::class)->setName('traiterForm');
+
+    //API
+    $app->get('/api/categories', GetCategoriesApi::class);
+    $app->get('/api/articles', GetArticlesApi::class);
+    $app->get('/api/articles/{id_a}', GetArticleInfoApi::class)->setName('article_info_api');
+    $app->get('/api/categories/{id_categ}/articles', GetArticlesFromCategoriesApi::class);
+    $app->get('/api/auteurs/{id}/articles', GetArticlesByAuteurIdApi::class);
 
     return $app;
 };

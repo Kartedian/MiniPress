@@ -8,8 +8,15 @@ use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 
 interface CatalogueServiceInterface
 {
-    /** @return CategorieEntity[] */
-    public function listerCategories(): array;
+    public function getCategories(): array;
+
+    public function getArticles(): array;
+
+    public function getArticlesFromCategory(int $id_categ): array;
+
+    public function getArticlesById(string $id_a): ?array;
+
+    public function getArticlesByIdAuteur(string $id_auteur): array;
 
     public function creerArticle(
         string $titre,

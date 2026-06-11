@@ -9,7 +9,7 @@ use Dwm\MiniPress\infrastructure\Categorie;
 
 class CatalogueService implements CatalogueServiceInterface
 {
-    public function listerCategories(): array
+    public function getCategories(): array
     {
         return Categorie::all()->map(fn($c) => new CategorieEntity(
             $c->id,
