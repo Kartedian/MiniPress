@@ -17,7 +17,7 @@ services:
     depends_on:
       sql:
         condition: service_healthy
-    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public /var/php/public/router.php"
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public /var/php/public/Router.php"
 
 
 #############################
