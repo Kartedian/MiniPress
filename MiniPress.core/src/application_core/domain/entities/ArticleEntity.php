@@ -13,6 +13,6 @@ class ArticleEntity{
         public readonly Date $date,
         public readonly int $categorie,
         public readonly string $id_Auteur,
-        public readonly int $etats
+        public readonly int $published
     ) {}
 }
