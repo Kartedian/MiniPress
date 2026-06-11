@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un article – MiniPress</title>
+</head>
+<body>
+
+<h1>MiniPress – Créer un article</h1>
+
+{% if succes %}
+<p><strong>L'article a été créé avec succès.</strong></p>
+{% endif %}
+
+{% if erreurs is defined and erreurs|length > 0 %}
+<ul>
+    {% for erreur in erreurs %}
+    <li>{{ erreur }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form method="POST" action="/articles/creer">
+
+    <p>
+        <label for="titre">Titre *</label><br>
+        <input type="text" id="titre" name="titre" value="{{ donnees.titre ?? '' }}" required>
+    </p>
+
+    <p>
+        <label for="categorie">Catégorie *</label><br>
+        <select id="categorie" name="categorie" required>
+            <option value="">-- Sélectionner --</option>
+            {% for categorie in categories %}
+            <option value="{{ categorie.id }}" {% if (donnees.categorie ?? '') == categorie.id %}selected{% endif %}>
+                {{ categorie.libelle }}
+            </option>
+            {% endfor %}
+        </select>
+    </p>
+
+    <p>
+        <label for="resumer">Résumé (Markdown)</label><br>
+        <textarea id="resumer" name="resumer" rows="4">{{ donnees.resumer ?? '' }}</textarea>
+    </p>
+
+    <p>
+        <label for="contenue">Contenu (Markdown) *</label><br>
+        <textarea id="contenue" name="contenue" rows="10">{{ donnees.contenue ?? '' }}</textarea>
+    </p>
+
+    <p>
+        <button type="submit">Créer l'article</button>
+        <a href="/">Annuler</a>
+    </p>
+
+</form>
+
+</body>
+</html>
