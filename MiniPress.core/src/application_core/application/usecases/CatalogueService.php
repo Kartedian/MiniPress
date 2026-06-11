@@ -74,7 +74,6 @@ class CatalogueService implements CatalogueServiceInterface
         $user->password = $userData['password'];
         $user->role = $userData['role'] ?? 1;
         
-        // Ajouter nom et prenom si disponibles
         if (isset($userData['nom'])) {
             $user->nom = $userData['nom'];
         }

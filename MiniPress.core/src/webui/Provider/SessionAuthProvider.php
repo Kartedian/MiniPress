@@ -80,42 +80,25 @@ class SessionAuthProvider implements AuthProviderInterface
             return $userRecord;
             
         } catch (\Exception $e) {
-            // En cas d'erreur, nettoyer la session
             $this->clearSession();
             return null;
         }
     }
 
 
-    /**
-     * Vérifie si un utilisateur est actuellement authentifié
-     * 
-     * @return bool
-     */
     public function isAuthenticated(): bool
     {
         return $this->getSignedInUser() !== null;
     }
 
-    /**
-     * Obtient le rôle de l'utilisateur connecté
-     * 
-     * @return int|null Le rôle ou null si non connecté
-     */
     public function getUserRole(): ?int
     {
         $user = $this->getSignedInUser();
-        return $user ? $user->role : null; // Changed to direct property access
+        return $user ? $user->role : null;
     }
 
 
 
-
-    /**
-     * Vérifie si l'utilisateur connecté a le rôle admin
-     * 
-     * @return bool
-     */
     public function isAdmin(): bool
     {
         $user = $this->getSignedInUser();
@@ -123,23 +106,12 @@ class SessionAuthProvider implements AuthProviderInterface
     }
 
     
-
-    /**
-     * Vérifie si l'utilisateur connecté est un utilisateur standard
-     * 
-     * @return bool
-     */
     public function isUser(): bool
     {
         $user = $this->getSignedInUser();
         return $user && $user->role === AuthnService::ROLE_USER;
     }
 
-    /**
-     * Crée une session pour l'utilisateur authentifié
-     * 
-     * @param User $user
-     */
     private function createUserSession(UserEntity $user): void
     {
         session_regenerate_id(true);
@@ -151,9 +123,6 @@ class SessionAuthProvider implements AuthProviderInterface
         $_SESSION['auth_user_role'] = $user->role; 
     }
 
-    /**
-     * Nettoie les données d'authentification de la session
-     */
     private function clearSession(): void
     {
         unset($_SESSION[self::SESSION_USER_ID_KEY]);
@@ -163,11 +132,6 @@ class SessionAuthProvider implements AuthProviderInterface
         
     }
 
-    /**
-     * Vérifie si la session est valide (non expirée)
-     * 
-     * @return bool
-     */
     private function isSessionValid(): bool
     {
         $lastActivity = $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] ?? null;
@@ -176,7 +140,6 @@ class SessionAuthProvider implements AuthProviderInterface
             return false;
         }
 
-        // Vérifier si la session n'a pas expiré
         if ((time() - $lastActivity) > self::SESSION_TIMEOUT) {
             $this->clearSession();
             return false;
@@ -185,9 +148,6 @@ class SessionAuthProvider implements AuthProviderInterface
         return true;
     }
 
-    /**
-     * Met à jour le timestamp de dernière activité
-     */
     private function updateLastActivity(): void
     {
         $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] = time();

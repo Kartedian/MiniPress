@@ -89,18 +89,15 @@ class AuthnService implements AuthnServiceInterface
 
     public function login(string $email, string $password): ?UserEntity
     {
-        // Validation basique
         if (empty($email) || empty($password)) { 
             return null;
         }
 
-        // Récupérer l'utilisateur par email
         $user = $this->catalogueService->findByEmail($email);
         if ($user === null) {
             return null;
         }
 
-        // Vérifier le mot de passe
         if ($this->verifyPassword($password, $user->password)) {
         
             if (!isset($user->id)) {
@@ -134,12 +131,6 @@ class AuthnService implements AuthnServiceInterface
     }
 
 
-    /**
-     * Valide le mot de passe
-     *
-     * @param string $password
-     * @throws \InvalidArgumentException
-     */
     private function validatePassword(string $password): void
     {
         if (empty($password)) {
@@ -156,13 +147,6 @@ class AuthnService implements AuthnServiceInterface
     }
 
 
-
-    /**
-     * Hache un mot de passe
-     * 
-     * @param string $password
-     * @return string
-     */
     private function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_BCRYPT, [
@@ -170,13 +154,6 @@ class AuthnService implements AuthnServiceInterface
         ]);
     }
 
-    /**
-     * Vérifie un mot de passe contre son hash
-     * 
-     * @param string $password Le mot de passe en clair
-     * @param string $hash Le hash stocké
-     * @return bool
-     */
     private function verifyPassword(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
