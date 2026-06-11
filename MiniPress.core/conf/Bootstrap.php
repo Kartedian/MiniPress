@@ -10,10 +10,15 @@ use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteParserInterface;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
+use Dwm\MiniPress\application_core\application\usecases\AuthnServiceInterface;
+use Dwm\MiniPress\application_core\application\usecases\AuthnService;
+
 use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
 use Dwm\MiniPress\Webui\Providers\SessionAuthProvider;
+
 // --- Base de données ----------------------------------------------------------
 $config = parse_ini_file(__DIR__ . '/confdb.ini');
 if ($config !== false) {
@@ -27,6 +32,7 @@ if ($config !== false) {
 $container = new Container();
 $container->bind(CatalogueServiceInterface::class, CatalogueService::class);
 $container->bind(AuthProviderInterface::class, SessionAuthProvider::class);
+$container->bind(AuthnServiceInterface::class, AuthnService::class);
 
 // --- Application --------------------------------------------------------------
 AppFactory::setContainer($container);
