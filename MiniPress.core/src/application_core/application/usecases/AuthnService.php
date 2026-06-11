@@ -7,10 +7,10 @@ use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
 use Dwm\MiniPress\infrastructure\User;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
+use Dwm\MiniPress\application_core\domain\exceptions\UserException;
 
 class AuthnService implements AuthnServiceInterface
 {
-
     public const ROLE_USER = 1;
     public const ROLE_ADMIN = 100;
 
@@ -160,4 +160,3 @@ class AuthnService implements AuthnServiceInterface
     }
 
 }
-

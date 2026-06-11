@@ -14,8 +14,9 @@ CREATE TABLE `Article` (
   `Contenue` text DEFAULT NULL,
   `Date` DATETIME DEFAULT NOW(),
   `Categorie` tinyint(4) NOT NULL DEFAULT 0,
-  `ID-Auteur` varchar(128) NOT NULL,
-  `Etats` INT NOT NULL DEFAULT 0,
+  'url_image' varchar(64) NOT NULL,
+  `ID_Auteur` varchar(128) NOT NULL,
+  `published` INT NOT NULL DEFAULT 0,
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
