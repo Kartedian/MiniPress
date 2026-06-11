@@ -10,7 +10,12 @@ INSERT INTO `Article` (`id`, `Titre`, `resumer`, `Contenue`, `Date`, `Categorie`
 
 
 INSERT INTO `categorie` (`id`, `libelle`, `description`) VALUES
-(1,	'Action',	'restaurant, en cas, sur le pouce, livré ... toutes les façons de manger.');
+(1, 'Actualités', 'Informations récentes et événements marquants.'),
+(2, 'Technologie', 'Articles sur les innovations, logiciels et matériel informatique.'),
+(3, 'Développement Web', 'Tutoriels et actualités liés au développement web.'),
+(4, 'Programmation', 'Conseils, bonnes pratiques et langages de programmation.'),
+(5, 'Intelligence Artificielle', 'Articles sur l’IA, le machine learning et les technologies associées.'),
+(6, 'Cybersécurité', 'Sécurité informatique, protection des données et bonnes pratiques.');
 
 
 SET NAMES utf8mb4;

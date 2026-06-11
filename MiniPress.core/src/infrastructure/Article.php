@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model{
     use HasUuids;
 
-    protected $table = 'article';
+    protected $table = 'Article';
 
     public $keyType = 'string';
 
     public $incrementing = false;
 
     public $timestamps = false;
+
+    protected $fillable = ['Titre', 'resumer', 'Contenue', 'Date', 'Categorie', 'ID-Auteur', 'Etats'];
 }

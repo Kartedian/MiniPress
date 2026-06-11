@@ -25,6 +25,7 @@ $twig = Twig::create(__DIR__ . '/../src/webui/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
 // --- Middleware -------------------------------------------------------------------
+$app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, true, true);
 

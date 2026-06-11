@@ -12,17 +12,17 @@ permet uniquement de naviguer, rechercher et consulter l’ensemble des articles
 - Une partie Admin permettant de créer des articles en saisissant les données dans des
 formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistrés.
 
-| Fonctionnalité                                    | État | Développeur |
-| ------------------------------------------------- | ---- | ----------- |
-| 1. Création d'un article                             |      |             |
-| 2. Création d'un article avec sélection de catégorie |      |             |
-| 3. Liste des articles triés par date décroissante    |      |             |
-| 4. Filtrage des articles par catégorie               |      |             |
-| 5. Création de catégories                            |      |             |
-| 6. Authentification des utilisateurs                 |      |             |
-| 7. Contrôle d'accès aux fonctionnalités protégées    |      |             |
-| 8. Gestion des auteurs des articles                  |      |             |
-| 9. API - Liste des catégories                        |      |             |
+| Fonctionnalité                                        | État | Développeur |
+| ------------------------------------------------------| ---- | ----------- |
+| 1. Création d'un article                              | ✅ |     Jules    |
+| 2. Création d'un article avec sélection de catégorie  | ✅ |     Jules    |
+| 3. Liste des articles triés par date décroissante     |      |             |
+| 4. Filtrage des articles par catégorie                |      |             |
+| 5. Création de catégories                             |      |             |
+| 6. Authentification des utilisateurs                  |      |             |
+| 7. Contrôle d'accès aux fonctionnalités protégées     |      |             |
+| 8. Gestion des auteurs des articles                   |      |             |
+| 9. API - Liste des catégories                         |      |             |
 | 10. API - Liste des articles                          |      |             |
 | 11. API - Articles d'une catégorie                    |      |             |
 | 12. API - Article complet                             |      |             |
