@@ -12,7 +12,7 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
-
+use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
 // --- Base de données ----------------------------------------------------------
 $config = parse_ini_file(__DIR__ . '/confdb.ini');
 if ($config !== false) {
@@ -34,6 +34,9 @@ $container->bind(RouteParserInterface::class, fn() => $app->getRouteCollector()-
 
 $twig = Twig::create(__DIR__ . '/../src/webui/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
+
+// --- Environnement --------------------------------------------------------------
+$twig->getEnvironment()->addGlobal('isAuthenticated', [AuthProviderInterface::class, 'isAuthenticated']);
 
 // --- Middleware -------------------------------------------------------------------
 $app->addBodyParsingMiddleware();
