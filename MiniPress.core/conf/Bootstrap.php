@@ -13,6 +13,7 @@ use Slim\Views\TwigMiddleware;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
 use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
+use Dwm\MiniPress\Webui\Providers\SessionAuthProvider;
 // --- Base de données ----------------------------------------------------------
 $config = parse_ini_file(__DIR__ . '/confdb.ini');
 if ($config !== false) {
@@ -25,6 +26,7 @@ if ($config !== false) {
 // --- Conteneur DI -------------------------------------------------------------
 $container = new Container();
 $container->bind(CatalogueServiceInterface::class, CatalogueService::class);
+$container->bind(AuthProviderInterface::class, SessionAuthProvider::class);
 
 // --- Application --------------------------------------------------------------
 AppFactory::setContainer($container);
@@ -36,7 +38,8 @@ $twig = Twig::create(__DIR__ . '/../src/webui/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
 // --- Environnement --------------------------------------------------------------
-$twig->getEnvironment()->addGlobal('isAuthenticated', [AuthProviderInterface::class, 'isAuthenticated']);
+$authProvider = $container->make(AuthProviderInterface::class);
+$twig->getEnvironment()->addGlobal('isAuthenticated', $authProvider->isAuthenticated());
 
 // --- Middleware -------------------------------------------------------------------
 $app->addBodyParsingMiddleware();
