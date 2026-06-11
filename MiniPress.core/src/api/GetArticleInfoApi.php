@@ -2,14 +2,14 @@
 
 namespace Dwm\MiniPress\api;
 
-use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
+use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class GetArticleInfoApi
 {
 
-    public function __construct(private readonly CatalogueServiceInterface $catalogueService) {}
+    public function __construct(private readonly DatabaseServiceInterface $catalogueService) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

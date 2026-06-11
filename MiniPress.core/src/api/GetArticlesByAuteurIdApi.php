@@ -2,7 +2,7 @@
 
 namespace Dwm\MiniPress\api;
 
-use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
+use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -12,7 +12,7 @@ class GetArticlesByAuteurIdApi
 {
 
     public function __construct(
-        private readonly CatalogueServiceInterface $catalogueService,
+        private readonly DatabaseServiceInterface $catalogueService,
         private readonly RouteParserInterface $routeParser
     ) {}
 

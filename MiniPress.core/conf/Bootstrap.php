@@ -11,8 +11,8 @@ use Slim\Interfaces\RouteParserInterface;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
-use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
-use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
+use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
+use Dwm\MiniPress\application_core\application\usecases\DatabaseService;
 use Dwm\MiniPress\application_core\application\usecases\AuthnServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\AuthnService;
 
@@ -30,7 +30,7 @@ if ($config !== false) {
 
 // --- Conteneur DI -------------------------------------------------------------
 $container = new Container();
-$container->bind(CatalogueServiceInterface::class, CatalogueService::class);
+$container->bind(DatabaseServiceInterface::class, DatabaseService::class);
 $container->bind(AuthProviderInterface::class, SessionAuthProvider::class);
 $container->bind(AuthnServiceInterface::class, AuthnService::class);
 
