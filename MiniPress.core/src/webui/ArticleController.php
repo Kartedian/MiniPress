@@ -14,7 +14,7 @@ class ArticleController
     public function showForm(Request $request, Response $response): Response
     {
         $view = Twig::fromRequest($request);
-        $categories = $this->catalogueService->listerCategories();
+        $categories = $this->catalogueService->getCategories();
         $succes = isset($request->getQueryParams()['succes']);
 
         return $view->render($response, 'createArticle.twig', [
@@ -44,7 +44,7 @@ class ArticleController
 
         if (!empty($erreurs)) {
             $view = Twig::fromRequest($request);
-            $categories = $this->catalogueService->listerCategories();
+            $categories = $this->catalogueService->getCategories();
 
             return $view->render($response, 'createArticle.twig', [
                 'categories' => $categories,
