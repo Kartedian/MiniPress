@@ -1,6 +1,0 @@
-.idea
-.ddev
-/vendor/
-*.ini
-.vscode
-*.lock
