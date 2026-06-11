@@ -8,11 +8,14 @@ use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
 use Dwm\MiniPress\infrastructure\User;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
 
-class AuthnService implements AuthnServiceInterface
-{
+enum UserRole: int
+    {
+        case USER = 1;
+        case ADMIN = 100;
+    }
 
-    public const ROLE_USER = 1;
-    public const ROLE_ADMIN = 100;
+class AuthnService implements AuthnServiceInterface
+{   
 
     private CatalogueServiceInterface $catalogueService;
     private AuthProviderInterface $authProvider;
@@ -44,7 +47,7 @@ class AuthnService implements AuthnServiceInterface
         $user->id = base64_encode(random_bytes(16));
         $user->user_id = $email; 
         $user->password = $hashedPassword;
-        $user->role = self::ROLE_USER;
+        $user->role = UserRole::USER->value;
 
         $this->catalogueService->save($user);
         return new UserEntity(
@@ -73,7 +76,7 @@ class AuthnService implements AuthnServiceInterface
         $user->id = base64_encode(random_bytes(16));
         $user->user_id = $userId;
         $user->password = $hashedPassword; 
-        $user->role = self::ROLE_USER; 
+        $user->role = UserRole::USER->value;
 
         // Sauvegarder l'utilisateur
         $this->catalogueService->save($user);
