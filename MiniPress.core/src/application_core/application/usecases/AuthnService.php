@@ -7,6 +7,7 @@ use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
 use Dwm\MiniPress\infrastructure\User;
 use Dwm\MiniPress\application_core\application\usecases\CatalogueServiceInterface;
+use Dwm\MiniPress\application_core\domain\exceptions\UserException;
 
 enum UserRole: int
     {
@@ -163,4 +164,3 @@ class AuthnService implements AuthnServiceInterface
     }
 
 }
-
