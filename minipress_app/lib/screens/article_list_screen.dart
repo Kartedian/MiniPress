@@ -13,15 +13,46 @@ class ArticleListScreen extends StatefulWidget {
 
 class _ArticleListScreenState extends State<ArticleListScreen> {
   final _service = ArticleService();
+  final _searchController = TextEditingController();
   String? _selectedCategory;
+  String _searchQuery = '';
+  bool _isSearching = false;
 
-  List<Article> get _articles => _selectedCategory == null
-      ? _service.getArticles()
-      : _service.getArticlesByCategory(_selectedCategory!);
+  List<Article> get _articles {
+    final base = _selectedCategory == null
+        ? _service.getArticles()
+        : _service.getArticlesByCategory(_selectedCategory!);
+
+    if (_searchQuery.isEmpty) return base;
+
+    final query = _searchQuery.toLowerCase();
+    return base
+        .where((a) =>
+            a.title.toLowerCase().contains(query) ||
+            a.author.toLowerCase().contains(query) ||
+            a.content.toLowerCase().contains(query))
+        .toList();
+  }
 
   void _selectCategory(String? category) {
     setState(() => _selectedCategory = category);
     Navigator.pop(context);
+  }
+
+  void _startSearch() => setState(() => _isSearching = true);
+
+  void _stopSearch() {
+    setState(() {
+      _isSearching = false;
+      _searchQuery = '';
+      _searchController.clear();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -30,8 +61,30 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_selectedCategory ?? 'MiniPress'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Rechercher...',
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) => setState(() => _searchQuery = value),
+              )
+            : Text(_selectedCategory ?? 'MiniPress'),
+        actions: [
+          if (_isSearching)
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: _stopSearch,
+            )
+          else
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: _startSearch,
+            ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -63,7 +116,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
         ),
       ),
       body: _articles.isEmpty
-          ? const Center(child: Text('Aucun article dans cette catégorie.'))
+          ? const Center(child: Text('Aucun article trouvé.'))
           : ListView.builder(
               itemCount: _articles.length,
               itemBuilder: (context, index) {
