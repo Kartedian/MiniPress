@@ -42,16 +42,19 @@ class CreateArticleAction
             } catch (\Exception $e) {
                 throw new HttpInternalServerErrorException($request, "Failed to create article: " . $e->getMessage());
             }
-        } else {
-            throw new HttpBadRequestException($request, "Unsupported HTTP method");
         }
 
-        $csrfToken = CsrfTokenProvider::generateToken();
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'CreateArticleView.html', [
-            'csrf_token' => $csrfToken,
-            'categories' => $this->db->getCategories()
-        ]);  
+        if ($request->getMethod() === 'GET') {
+            $csrfToken = CsrfTokenProvider::generateToken();
+            $view = Twig::fromRequest($request);
+            
+            return $view->render($response, 'CreateArticleView.html', [
+                'csrf_token' => $csrfToken,
+                'categories' => $this->db->getCategories()
+            ]);  
+        }
+        
+            throw new HttpBadRequestException($request, "Unsupported HTTP method");  
     }
 }
 ?>
