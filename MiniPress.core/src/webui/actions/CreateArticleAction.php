@@ -8,20 +8,16 @@ use Slim\Views\Twig;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpInternalServerErrorException;
 use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
-use Dwm\MiniPress\webui\provider\AuthnProvider;
+use Dwm\MiniPress\webui\provider\AuthProviderInterface;
 
 class CreateArticleAction
 {
-    private $db;
-
-    public function __construct(DatabaseServiceInterface $db)
-    {
-        $this->db = $db;
-    }
+    public function __construct(private readonly DatabaseServiceInterface $db, private readonly AuthProviderInterface $auth){}
 
     public function __invoke(Request $request, Response $response, array $args)
-    {
-        if ($request->getMethod() === 'POST') {
+    {   
+        if($this->auth::isAuthenticated()){
+            if ($request->getMethod() === 'POST') {
             $parsedBody = $request->getParsedBody();
 
             // Vérification du token CSRF
@@ -30,15 +26,15 @@ class CreateArticleAction
             }
 
             try {
-                $article = $this->db->creerArticle(
+                $article = $this->db::creerArticle(
                     $parsedBody['titre'],
                     $parsedBody['resumer'] ?? null,
                     $parsedBody['contenue'] ?? null,
                     (int)$parsedBody['categorie'],
                     $parsedBody['url_image'] ?? null,
-                    AuthnProvider::getUserId()
+                    $this->auth::getUserId()
                 );
-                return $response->withHeader('Location', "/articles/$article")->withStatus(302);
+                return $response->withHeader('Location', "/article/$article->id")->withStatus(302);
             } catch (\Exception $e) {
                 throw new HttpInternalServerErrorException($request, "Failed to create article: " . $e->getMessage());
             }
@@ -54,7 +50,11 @@ class CreateArticleAction
             ]);  
         }
         
-            throw new HttpBadRequestException($request, "Unsupported HTTP method");  
+            throw new HttpBadRequestException($request, "Unsupported HTTP method");
+        }
+        return $response
+            ->withHeader('Location', '/login')
+            ->withStatus(302);
     }
 }
 ?>
