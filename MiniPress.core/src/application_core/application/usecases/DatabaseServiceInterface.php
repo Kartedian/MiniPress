@@ -10,7 +10,7 @@ interface DatabaseServiceInterface
 {
     public static function getCategories(): array;
 
-    public static function getArticles(string $type = "date", string $order = "desc"): array;
+    public static function getArticles(?string $userId = null, string $type = "date", string $order = "desc"): array;
 
     public static function getArticlesFromCategory(int $id_categ): array;
 
@@ -21,7 +21,6 @@ interface DatabaseServiceInterface
     public static function getAuthorById(string $id_auteur): ?array;
 
     public static function creerArticle(string $titre, ?string $resumer, ?string $contenue, int $categorie, string $url_image, string $idAuteur): ?ArticleEntity;
-
 
     public static function creerCategorie(string $libelle, ?string $description): ?CategorieEntity;
 

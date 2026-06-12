@@ -25,14 +25,25 @@ class DatabaseService implements DatabaseServiceInterface
     }
 
 
-    public static function getArticles(string $type = "date", string $order = "desc"): array{
-        return Article::orderBy($type, $order)
-                        ->get()
-                        ->all();
+    public static function getArticles(?string $userId = null, string $type = "date", string $order = "desc"): array {
+        
+        $query = Article::orderBy($type, $order);
+
+        if ($userId !== null) {
+            $query->where(function ($q) use ($userId) {
+                $q->where('published', 1)
+                  ->orWhere('id_auteur', $userId);
+            });
+        } else {
+            $query->where('published', 1);
+        }
+
+        return $query->get()->all();
     }
 
     public static function getArticlesFromCategory(int $id_categ): array{
         return Article::where('categorie', $id_categ)
+                        ->where('published', 1)
                         ->orderBy('date', 'desc')
                         ->get()
                         ->all();
@@ -50,7 +61,7 @@ class DatabaseService implements DatabaseServiceInterface
             'titre' => $article->titre,
             'resumer' => $article->resumer,
             'contenue' => $article->contenue,
-            'date' => new \DateTime($article->date),
+            $article->date ? new \DateTime($article->date) : new \DateTime(),
             'categorie' => $article->categorie,
             'url_image' => $article->url_image,
             'id_auteur' => $article->id_auteur,
@@ -96,11 +107,11 @@ class DatabaseService implements DatabaseServiceInterface
                 $article->titre,
                 $article->resumer,
                 $article->contenue,
-                new \DateTime($article->date),
+                $article->date ? new \DateTime($article->date) : new \DateTime(),
                 $article->categorie,
                 $article->url_image,
                 $article->id_auteur,
-                $article->published
+                $article->published ? 0 : 1,
             );
         }
         return null;
@@ -129,7 +140,7 @@ class DatabaseService implements DatabaseServiceInterface
         $article = Article::find($id);
 
         if($article !== null){
-            $article->published = $public;
+            $article->published = $public == 1? true : false;
 
             $article->save();
         } else {
