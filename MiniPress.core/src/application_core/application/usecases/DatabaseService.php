@@ -158,39 +158,70 @@ class DatabaseService implements DatabaseServiceInterface
 
     public static function findUserByUserId(string $userId): ?UserEntity
     {
-        return User::where('user_id', $userId)->first();
+        $user = User::where('user_id', $userId)->first();
+
+        if ($user === null) {
+            return null;
+        }
+
+        return new UserEntity(
+            (string)$user->id,
+            $user->name,
+            $user->user_id,
+            $user->password,
+            (int)$user->role
+        );
     }
 
     public static function findUserByEmail(string $email): ?UserEntity
     {
-        return User::where('user_id', $email)->first();
+        // Remarque : Si "user_id" correspond à l'email dans ta base de données, cette requête est correcte.
+        $user = User::where('user_id', $email)->first();
+
+        if ($user === null) {
+            return null;
+        }
+
+        return new UserEntity(
+            (string)$user->id,
+            $user->name,
+            $user->user_id,
+            $user->password,
+            (int)$user->role
+        );
     }
 
     public static function findUserById(string $id): ?UserEntity
     {
-        return User::find($id);
+        $user = User::find($id);
+
+        if ($user === null) {
+            return null;
+        }
+
+        return new UserEntity(
+            (string)$user->id,
+            $user->name,
+            $user->user_id,
+            $user->password,
+            (int)$user->role
+        );
     }
 
     public static function createUser(array $userData): UserEntity
     {
         $user = new User();
         
-        $user->id = base64_encode(random_bytes(16));
+        $user->name = $userData['name'];
         $user->user_id = $userData['user_id'] ?? $userData['email'];
         $user->password = $userData['password'];
         $user->role = $userData['role'] ?? 1;
-        
-        if (isset($userData['nom'])) {
-            $user->nom = $userData['nom'];
-        }
-        if (isset($userData['prenom'])) {
-            $user->prenom = $userData['prenom'];
-        }
         
         $user->save();
         
         return new UserEntity(
             (string)$user->id,
+            $user->name,
             $user->user_id,
             $user->password,
             (int)$user->role
