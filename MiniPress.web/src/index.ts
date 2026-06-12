@@ -21,7 +21,6 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
             return new Date(dateB).getTime() - new Date(dateA).getTime();
         });
 
-        // Comme ton API PHP renvoie une "url" backend, on extrait l'ID pour le frontend
         const articlesFormates = articlesTries.map(art => {
             const idExtrait = art.url ? art.url.split('/').pop() : '';
             return {
@@ -66,7 +65,6 @@ async function renderCategories() {
     try {
         const categories = await fetchCategories();
 
-        // On adapte les données reçues de l'API (pour gérer les majuscules éventuelles de ta BDD)
         const categoriesFormatees = categories.map((cat: any) => ({
             id: cat.id || cat.ID || cat.id_categorie,
             nom: cat.nom || cat.Nom || cat.titre || cat.Titre || cat.libelle
