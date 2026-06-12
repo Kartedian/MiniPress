@@ -19,16 +19,16 @@ formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistré
 | 3. Liste des articles triés par date décroissante     | ✅ |     Walid    |
 | 4. Filtrage des articles par catégorie                | ✅ |     Walid    |
 | 5. Création de catégories                             | ✅ |     Walid    |
-| 6. Authentification des utilisateurs                  |      |             |
-| 7. Contrôle d'accès aux fonctionnalités protégées     |      |             |
-| 8. Gestion des auteurs des articles                   |      |             |
+| 6. Authentification des utilisateurs                  | ✅ |     Walid    |
+| 7. Contrôle d'accès aux fonctionnalités protégées     | ✅ |     Walid    |
+| 8. Gestion des auteurs des articles                   | ✅ |     Walid    |
 | 9. API - Liste des catégories                         | ✅ | Alexandre |
 | 10. API - Liste des articles                          | ✅ | Alexandre |
 | 11. API - Articles d'une catégorie                    | ✅ | Alexandre |
 | 12. API - Article complet                             | ✅ | Alexandre |
 | 13. API - Articles d'un auteur                        | ✅ | Alexandre |
 | 14. Publication / Dépublication des articles          | ✅ |     Walid    |
-| 15. Création d'utilisateurs par l'administrateur      |      |             |
+| 15. Création d'utilisateurs par l'administrateur      | ✅ |     Walid    |
 | 16. Tri des articles dans l'API (date/auteur)         | ✅ | Alexandre |
 
 ---
