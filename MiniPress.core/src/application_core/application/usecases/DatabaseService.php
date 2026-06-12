@@ -31,7 +31,7 @@ class DatabaseService implements DatabaseServiceInterface
     }
 
     public static function getArticlesFromCategory(int $id_categ): array{
-        $article = Article::where('categorie', $id_categ)
+        return Article::where('categorie', $id_categ)
                         ->orderBy('date', 'desc')
                         ->get()
                         ->map(fn($a) => new ArticleEntity(
@@ -45,18 +45,6 @@ class DatabaseService implements DatabaseServiceInterface
                             $a->id_auteur,
                             $a->published
                         ))->all();
-
-        return [
-            'id' => $article->id,
-            'titre' => $article->titre,
-            'resumer' => $article->resumer,
-            'contenue' => $article->contenue,
-            'date' => new \DateTime($article->date),
-            'categorie' => $article->categorie,
-            'url_image' => $article->url_image,
-            'id_auteur' => $article->id_auteur,
-            'published' => $article->published
-        ];
     }
 
     public static function getArticleById(string $id): ?array{
