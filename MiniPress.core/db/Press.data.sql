@@ -5,7 +5,7 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-INSERT INTO `Article` (`id`, `Titre`, `resumer`, `Contenue`, `Date`, `Categorie`, `url_image`,`ID_Auteur`, `published`) VALUES
+INSERT INTO `Article` (`id`, `titre`, `resumer`, `contenue`, `date`, `categorie`, `url_image`,`id_auteur`, `published`) VALUES
 ('Article-1',	'Le petit Loup',	'quos dolorem libero',	'Quisquam a eaque eum ipsa est est. Nemo eveniet dolorum nisi. Voluptatem dolores veritatis tempore unde recusandae. Numquam at qui odio voluptas inventore non vel.',	'2026-06-10', 1, 'url_image.jpg', 'Arthur',	1);
 
 
