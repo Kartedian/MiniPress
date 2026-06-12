@@ -17,7 +17,7 @@ class MiniPressApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      //home: const ArticleListScreen(),
+      home: const ArticleListScreen(),
     );
   }
 }
