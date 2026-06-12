@@ -1,12 +1,13 @@
 import { Article, Categorie } from './types';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:13887/api';
 
 export async function fetchArticles(): Promise<Article[]> {
-    const res = await fetch(`${API_URL}/articles`);
+    const res = await fetch('./data/articles.json'); 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
 }
+
 
 export async function fetchArticle(id: number): Promise<Article> {
     const res = await fetch(`${API_URL}/articles/${id}`);
