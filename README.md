@@ -29,7 +29,7 @@ formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistré
 | 13. API - Articles d'un auteur                        | ✅ | Alexandre |
 | 14. Publication / Dépublication des articles          | ✅ |     Walid    |
 | 15. Création d'utilisateurs par l'administrateur      |      |             |
-| 16. Tri des articles dans l'API (date/auteur)         |      |             |
+| 16. Tri des articles dans l'API (date/auteur)         | ✅ | Alexandre |
 
 ---
 
