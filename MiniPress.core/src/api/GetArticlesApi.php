@@ -25,8 +25,6 @@ class GetArticlesApi
             $categories = $this->catalogueService->getArticles("date", "asc");
         } else if ($sort === 'date-desc') {
             $categories = $this->catalogueService->getArticles("date", "desc");
-        } else if ($sort === 'auteur') {
-            $categories = $this->catalogueService->getArticles("id_auteur");
         } else {
             $categories = $this->catalogueService->getArticles();
         }
@@ -46,6 +44,13 @@ class GetArticlesApi
                 'url' => $this->routeParser->urlFor('article_info_api', ['id_a' => $article['id']])
             ];
         }, $categories);
+
+        //sort by auteur name
+        if ($sort === 'auteur') {
+            usort($result, function ($a, $b) {
+                return strcmp($a['auteur']['name'], $b['auteur']['name']);
+            });
+        }
 
         $payload = json_encode($result);
 
