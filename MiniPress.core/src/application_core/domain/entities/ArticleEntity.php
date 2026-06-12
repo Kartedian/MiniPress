@@ -2,7 +2,7 @@
 
 namespace Dwm\MiniPress\application_core\domain\entities;
 
-use Illuminate\Support\Facades\Date;
+use DateTime;
 
 class ArticleEntity{
     public function __construct(
@@ -10,7 +10,7 @@ class ArticleEntity{
         public readonly string $titre,
         public readonly ?string $resumer,
         public readonly ?string $contenue,
-        public readonly Date $date,
+        public readonly DateTime $date,
         public readonly int $categorie,
         public readonly string $url_image,
         public readonly string $id_Auteur,
