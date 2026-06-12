@@ -49,6 +49,9 @@ $app->add(TwigMiddleware::create($app, $twig));
 $authProvider = $container->make(AuthProviderInterface::class);
 $twig->getEnvironment()->addGlobal('isAuthenticated', $authProvider->isAuthenticated());
 
+$dbService = $container->make(DatabaseServiceInterface::class);
+AuthnService::init($dbService);
+
 // --- Middleware -------------------------------------------------------------------
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
