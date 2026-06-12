@@ -16,6 +16,10 @@ class Article extends Model{
 
     public $timestamps = false;
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_auteur', 'id');
