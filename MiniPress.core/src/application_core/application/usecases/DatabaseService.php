@@ -25,24 +25,13 @@ class DatabaseService implements DatabaseServiceInterface
     }
 
     public static function getArticles(): array{
-
         return Article::orderBy('date', 'desc')
                         ->get()
-                        ->map(fn($a) => new ArticleEntity(
-                            $a->id,
-                            $a->titre,
-                            $a->resumer,
-                            $a->contenue,
-                            new \DateTime($a->date),
-                            $a->categorie,
-                            $a->url_image,
-                            $a->id_auteur,
-                            $a->published
-                        ))->all();
+                        ->all();
     }
 
     public static function getArticlesFromCategory(int $id_categ): array{
-        return Article::where('categorie', $id_categ)
+        $article = Article::where('categorie', $id_categ)
                         ->orderBy('date', 'desc')
                         ->get()
                         ->map(fn($a) => new ArticleEntity(
@@ -56,6 +45,18 @@ class DatabaseService implements DatabaseServiceInterface
                             $a->id_auteur,
                             $a->published
                         ))->all();
+
+        return [
+            'id' => $article->id,
+            'titre' => $article->titre,
+            'resumer' => $article->resumer,
+            'contenue' => $article->contenue,
+            'date' => new \DateTime($article->date),
+            'categorie' => $article->categorie,
+            'url_image' => $article->url_image,
+            'id_auteur' => $article->id_auteur,
+            'published' => $article->published
+        ];
     }
 
     public static function getArticleById(string $id): ?array{
@@ -82,17 +83,7 @@ class DatabaseService implements DatabaseServiceInterface
         return Article::where('id_auteur', $id_auteur)
                         ->order('date', 'desc')
                         ->get()
-                        ->map(fn($a) => new ArticleEntity(
-                            $a->id,
-                            $a->titre,
-                            $a->resumer,
-                            $a->contenue,
-                            new \DateTime($a->date),
-                            $a->categorie,
-                            $a->url_image,
-                            $a->id_auteur,
-                            $a->published
-                        ))->all();
+                        ->all();
     }
 
     public static function creerArticle(
