@@ -17,22 +17,34 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   String? _selectedCategory;
   String _searchQuery = '';
   bool _isSearching = false;
+  bool _sortAscending = false;
 
   List<Article> get _articles {
     final base = _selectedCategory == null
         ? _service.getArticles()
         : _service.getArticlesByCategory(_selectedCategory!);
 
-    if (_searchQuery.isEmpty) return base;
+    List<Article> result = base;
 
-    final query = _searchQuery.toLowerCase();
-    return base
-        .where((a) =>
-            a.title.toLowerCase().contains(query) ||
-            a.author.toLowerCase().contains(query) ||
-            a.content.toLowerCase().contains(query))
-        .toList();
+    if (_searchQuery.isNotEmpty) {
+      final query = _searchQuery.toLowerCase();
+      result = result
+          .where((a) =>
+              a.title.toLowerCase().contains(query) ||
+              a.author.toLowerCase().contains(query) ||
+              a.content.toLowerCase().contains(query))
+          .toList();
+    }
+
+    if (_sortAscending) {
+      result = List.from(result)
+        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    }
+
+    return result;
   }
+
+  void _toggleSort() => setState(() => _sortAscending = !_sortAscending);
 
   void _selectCategory(String? category) {
     setState(() => _selectedCategory = category);
@@ -74,6 +86,13 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               )
             : Text(_selectedCategory ?? 'MiniPress'),
         actions: [
+          Tooltip(
+            message: _sortAscending ? 'Décroissant' : 'Croissant',
+            child: IconButton(
+              icon: Icon(_sortAscending ? Icons.arrow_upward : Icons.arrow_downward),
+              onPressed: _toggleSort,
+            ),
+          ),
           if (_isSearching)
             IconButton(
               icon: const Icon(Icons.close),
