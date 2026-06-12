@@ -19,23 +19,38 @@ class GetArticlesApi
 
     public function __invoke(Request $request, Response $response): Response
     {
-        $categories = $this->catalogueService->getArticles();
+        $queryParams = $request->getQueryParams();
+        $sort = $queryParams['sort'] ?? null;
+        if ($sort === 'date-asc') {
+            $categories = $this->catalogueService->getArticles("date", "asc");
+        } else if ($sort === 'date-desc') {
+            $categories = $this->catalogueService->getArticles("date", "desc");
+        } else if ($sort === 'auteur') {
+            $categories = $this->catalogueService->getArticles("id_auteur");
+        } else {
+            $categories = $this->catalogueService->getArticles();
+        }
 
         // titre, date, auteur, url
-        $result = array_map(function($article) {
+        $result = array_map(function ($article) {
+            $author = $this->catalogueService->getAuthorById($article['id_auteur']);
             return [
-                'titre' => $article['Titre'],
-                'date' => $article['Date'],
-                'auteur' => $article['ID-Auteur'],
+                'titre' => $article['titre'],
+                'date' => $article['date'],
+                'auteur' => [
+                    'id' => $author['id'],
+                    'user_id' => $author['user_id'],
+                    'name' => $author['name']
+                ],
                 // récupérer l'url de l'article avec route
-                'url' => $this->routeParser->urlFor('article_info_api', ['id' => $article['ID']])
+                'url' => $this->routeParser->urlFor('article_info_api', ['id_a' => $article['id']])
             ];
         }, $categories);
 
         $payload = json_encode($result);
-        
+
         $response->getBody()->write($payload);
-        
+
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 }

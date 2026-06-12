@@ -24,8 +24,9 @@ class DatabaseService implements DatabaseServiceInterface
         ))->all();
     }
 
-    public static function getArticles(): array{
-        return Article::orderBy('date', 'desc')
+
+    public static function getArticles(string $type = "date", string $order = "desc"): array{
+        return Article::orderBy($type, $order)
                         ->get()
                         ->all();
     }
@@ -84,6 +85,13 @@ class DatabaseService implements DatabaseServiceInterface
                         ->order('date', 'desc')
                         ->get()
                         ->all();
+    }
+
+    public static function getAuthorById(string $id_auteur): array 
+    {
+        return User::where('id', $id_auteur)
+                    ->first()
+                    ->toArray();
     }
 
     public static function creerArticle(

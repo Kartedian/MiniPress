@@ -8,17 +8,17 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 -- --------------------------------------------------------
 -- Users
 -- --------------------------------------------------------
-INSERT INTO `user` (`id`, `user_id`, `password`, `role`) VALUES
-('a1b2c3d4-e5f6-7890-abcd-ef1234567801', 'alice.martin',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 100),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567802', 'bob.dupont',     '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567803', 'claire.leblanc', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567804', 'david.moreau',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567805', 'emma.bernard',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567806', 'francois.petit', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567807', 'gabrielle.roy',  '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567808', 'hugo.thomas',    '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567809', 'isabelle.simon', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
-('a1b2c3d4-e5f6-7890-abcd-ef1234567810', 'julien.garcia',  '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1);
+INSERT INTO `user` (`id`, `user_id`, `name`, `password`, `role`) VALUES
+('a1b2c3d4-e5f6-7890-abcd-ef1234567801', 'alice.martin@mail.com',   'alice.martin',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 100),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567802', 'bob.dupont@mail.com',     'bob.dupont',     '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567803', 'claire.leblanc@mail.com', 'claire.leblanc', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567804', 'david.moreau@mail.com',   'david.moreau',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567805', 'emma.bernard@mail.com',   'emma.bernard',   '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567806', 'francois.petit@mail.com', 'francois.petit', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 10),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567807', 'gabrielle.roy@mail.com',  'gabrielle.roy',  '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567808', 'hugo.thomas@mail.com',    'hugo.thomas',    '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567809', 'isabelle.simon@mail.com', 'isabelle.simon', '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567810', 'julien.garcia@mail.com',  'julien.garcia',  '$2y$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 1);
 
 -- --------------------------------------------------------
 -- Categories

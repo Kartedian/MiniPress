@@ -8,7 +8,7 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `Article`;
 CREATE TABLE `Article` (
-  `id` varchar(128) NOT NULL,
+  `id` varchar(128) NOT NULL, -- uuid de l'article
   `titre` varchar(64) NOT NULL,
   `resumer` text NOT NULL,
   `contenue` text DEFAULT NULL,
@@ -35,7 +35,8 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `user_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `user_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL, -- email de l'utilisateur
+  `name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL, -- nom et prénom de l'utilisateur
   `password` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `role` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
