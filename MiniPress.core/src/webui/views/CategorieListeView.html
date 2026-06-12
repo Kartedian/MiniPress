@@ -11,5 +11,8 @@
     {% endfor %}
 </ul>
 <br>
+
+{% if isAuthenticated %}
 <a href="{{ url_for('categorie_create') }}">Créer une nouvelle catégorie</a>
+{% endif %}
 {% endblock %}
