@@ -89,7 +89,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
           Tooltip(
             message: _sortAscending ? 'Décroissant' : 'Croissant',
             child: IconButton(
-              icon: Icon(_sortAscending ? Icons.arrow_upward : Icons.arrow_downward),
+              icon: Icon(_sortAscending ? Icons.arrow_downward : Icons.arrow_upward),
               onPressed: _toggleSort,
             ),
           ),
