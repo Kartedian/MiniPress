@@ -8,7 +8,7 @@
 <form method="get" action="">
     <div class="_categorie">
         <label for="categorie">Categorie</label>
-        <select id="categorie" name="categorie">
+        <select id="categorie" name="categorie" onchange="this.form.submit()">
             <option value="">--Toutes les catégories--</option>
             {% for categorie in categories %}
                 <option value="{{ categorie.id }}" {% if current_cat == categorie.id %}selected{% endif %}>
