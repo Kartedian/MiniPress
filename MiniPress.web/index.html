@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniPress - Accueil</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
-    
+    <title>MiniPress</title>
     <style>
-        /* Un peu de CSS basique pour que ce soit propre */
-        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: auto; }
         .article-item { margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
         .article-meta { color: #666; font-size: 0.9em; }
+        aside { float: left; width: 200px; margin-right: 2rem; }
+        main { overflow: hidden; }
     </style>
 </head>
 <body>
@@ -20,11 +18,16 @@
         <h1>MiniPress Web</h1>
     </header>
 
-    <main id="app">
-        <p>Chargement des articles en cours...</p>
-    </main>
+    <div id="layout">
+        <aside id="sidebar">
+            <!-- Liste des catégories -->
+        </aside>
+        <main id="app">
+            <p>Chargement des articles en cours...</p>
+        </main>
+    </div>
 
-    <script src="script.js"></script>
-    
-    </body>
+    <script src="dist/bundle.js"></script>
+
+</body>
 </html>
