@@ -2,7 +2,7 @@ import Handlebars from 'handlebars';
 import { fetchArticles, fetchCategories, fetchArticle, fetchArticlesByCategorie , fetchArticlesByAuteur } from './api';
 
 
-
+let currentSortOrder: 'asc' | 'desc' = 'desc';
 
 
 async function renderArticles(fetchPromise: Promise<any[]>) {
@@ -11,15 +11,22 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
 
     appContainer.innerHTML = '<p>Chargement des articles en cours...</p>';
 
+
+
     try {
         const articles = await fetchPromise;
 
+        // Tri des articles en fonction de la date et de l'ordre de tri sélectionné
         const articlesTries = articles.sort((a, b) => {
-            const dateA = typeof a.date === 'string' ? a.date : a.date?.date;
-            const dateB = typeof b.date === 'string' ? b.date : b.date?.date;
-            return new Date(dateB).getTime() - new Date(dateA).getTime();
+            const dateA = new Date(typeof a.date === 'string' ? a.date : a.date?.date).getTime();
+            const dateB = new Date(typeof b.date === 'string' ? b.date : b.date?.date).getTime();
+            
+            return currentSortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+
         });
 
+
+        // Formatage des articles pour faciliter l'affichage
         const articlesFormates = articlesTries.map(art => {
             const idExtrait = art.url ? art.url.split('/').pop() : '';
             return {
@@ -31,7 +38,17 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         });
 
         const templateSource = `
-            <h2>Articles</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+                <h2>Articles</h2>
+                <div>
+                    <label for="sortOrder"><strong>Trier par date : </strong></label>
+                    <select id="sortOrder" style="padding: 0.3rem;">
+                        <option value="desc" {{#if isDesc}}selected{{/if}}>Plus récents </option>
+                        <option value="asc" {{#if isAsc}}selected{{/if}}>Plus anciens</option>
+                    </select>
+                </div>
+            </div>
+
             {{#if articles.length}}
                 <div class="articles-list">
                     {{#each articles}}
@@ -50,7 +67,21 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         `;
         
         const template = Handlebars.compile(templateSource);
-        appContainer.innerHTML = template({ articles: articlesFormates });
+        
+        appContainer.innerHTML = template({ 
+            articles: articlesFormates,
+            isDesc: currentSortOrder === 'desc',
+            isAsc: currentSortOrder === 'asc'
+        });
+
+        const sortSelect = document.getElementById('sortOrder') as HTMLSelectElement;
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (event) => {
+                currentSortOrder = (event.target as HTMLSelectElement).value as 'asc' | 'desc';
+                
+                handleNavigation(); 
+            });
+        }
 
     } catch (error) {
         console.error(error);
@@ -59,6 +90,8 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
 }
 
 
+
+// Fonction pour afficher les catégories dans la sidebar
 async function renderCategories() {
     const sidebarContainer = document.getElementById('sidebar');
     if (!sidebarContainer) return;
@@ -96,11 +129,13 @@ async function renderCategories() {
 
 
 
+// Fonction pour afficher un article unique
 async function renderArticleUnique(idArticle: string) {
     const appContainer = document.getElementById('app');
     if (!appContainer) return;
 
     appContainer.innerHTML = '<p>Chargement de l\'article...</p>';
+
 
     try {
         const article = await fetchArticle(idArticle);
