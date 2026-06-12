@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars';
-import { fetchArticles, fetchCategories, fetchArticle, fetchArticlesByCategorie } from './api';
+import { fetchArticles, fetchCategories, fetchArticle, fetchArticlesByCategorie , fetchArticlesByAuteur } from './api';
 
 
 
@@ -14,7 +14,6 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
     try {
         const articles = await fetchPromise;
 
-        // Tri par date
         const articlesTries = articles.sort((a, b) => {
             const dateA = typeof a.date === 'string' ? a.date : a.date?.date;
             const dateB = typeof b.date === 'string' ? b.date : b.date?.date;
@@ -25,7 +24,9 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
             const idExtrait = art.url ? art.url.split('/').pop() : '';
             return {
                 ...art,
-                frontendUrl: `#/articles/${idExtrait}`
+                frontendUrl: `#/articles/${idExtrait}`,
+                auteurId: art.auteur?.id || art.auteur, 
+                auteurNom: art.auteur?.name || art.auteur || 'Inconnu'
             };
         });
 
@@ -37,14 +38,14 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
                     <article class="article-item">
                         <h3><a href="{{this.frontendUrl}}">{{this.titre}}</a></h3>
                         <div class="article-meta">
-                            <span><strong>Auteur ID :</strong> {{this.auteur}}</span> | 
+                            <span><strong>Auteur :</strong> <a href="#/auteurs/{{this.auteurId}}" style="color: #007BFF; text-decoration: none;">{{this.auteurNom}}</a></span> | 
                             <span><strong>Date :</strong> {{this.date}}</span>
                         </div>
                     </article>
                     {{/each}}
                 </div>
             {{else}}
-                <p>Aucun article trouvé dans cette catégorie.</p>
+                <p>Aucun article trouvé.</p>
             {{/if}}
         `;
         
@@ -104,7 +105,6 @@ async function renderArticleUnique(idArticle: string) {
     try {
         const article = await fetchArticle(idArticle);
 
-
         const templateSource = `
             <article class="single-article">
                 <a href="#/" style="display: inline-block; margin-bottom: 1rem; text-decoration: none; color: #007BFF;">&larr; Retour aux articles</a>
@@ -113,7 +113,7 @@ async function renderArticleUnique(idArticle: string) {
                 
                 <div class="article-meta" style="margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
                     <span><strong>Catégorie :</strong> {{categorie}}</span> | 
-                    <span><strong>Auteur :</strong> {{auteur.name}}</span> | 
+                    <span><strong>Auteur :</strong> <a href="#/auteurs/{{auteur.id}}" style="color: #007BFF; text-decoration: none;">{{auteur.name}}</a></span> | 
                     <span><strong>Date :</strong> {{date.date}}</span>
                 </div>
                 
@@ -143,6 +143,10 @@ function handleNavigation() {
         const paramCat = hash.replace('#/categories/', '');
         renderArticles(fetchArticlesByCategorie(paramCat));
     } 
+    else if (hash.startsWith('#/auteurs/')) {
+        const idAuteur = hash.replace('#/auteurs/', '');
+        renderArticles(fetchArticlesByAuteur(idAuteur));
+    }
     else if (hash.startsWith('#/articles/')) {
         const idArticle = hash.replace('#/articles/', '');
         renderArticleUnique(idArticle);
