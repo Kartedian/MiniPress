@@ -16,8 +16,8 @@ use Dwm\MiniPress\application_core\application\usecases\DatabaseService;
 use Dwm\MiniPress\application_core\application\usecases\AuthnServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\AuthnService;
 
-use Dwm\MiniPress\Webui\Providers\AuthProviderInterface;
-use Dwm\MiniPress\Webui\Providers\SessionAuthProvider;
+use Dwm\MiniPress\Webui\providers\AuthProviderInterface;
+use Dwm\MiniPress\Webui\providers\SessionAuthProvider;
 
 // --- Base de données ----------------------------------------------------------
 $config = parse_ini_file(__DIR__ . '/confdb.ini');
