@@ -35,17 +35,7 @@ class DatabaseService implements DatabaseServiceInterface
         return Article::where('categorie', $id_categ)
                         ->orderBy('date', 'desc')
                         ->get()
-                        ->map(fn($a) => new ArticleEntity(
-                            $a->id,
-                            $a->titre,
-                            $a->resumer,
-                            $a->contenue,
-                            new \DateTime($a->date),
-                            $a->categorie,
-                            $a->url_image,
-                            $a->id_auteur,
-                            $a->published
-                        ))->all();
+                        ->all();
     }
 
     public static function getArticleById(string $id): ?array{
@@ -70,7 +60,7 @@ class DatabaseService implements DatabaseServiceInterface
 
     public static function getArticlesByIdAuteur(string $id_auteur): array{
         return Article::where('id_auteur', $id_auteur)
-                        ->order('date', 'desc')
+                        ->orderBy('date', 'desc')
                         ->get()
                         ->all();
     }
