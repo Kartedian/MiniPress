@@ -19,31 +19,28 @@ enum UserRole: int
 class AuthnService implements AuthnServiceInterface
 {   
 
-    private DatabaseServiceInterface $catalogueService;
-    private AuthProviderInterface $authProvider;
-
+    private static DatabaseServiceInterface $catalogueService;
     
-    public function __construct(DatabaseServiceInterface $catalogueService, AuthProviderInterface $authProvider)
+    public static function init(DatabaseServiceInterface $catalogueService): void
     {
-        $this->catalogueService = $catalogueService;
-        $this->authProvider = $authProvider;
+        self::$catalogueService = $catalogueService;
     }
 
-
-    public static function register(string $email, string $password): UserEntity 
+    public static function register(string $name, string $email, string $password): UserEntity 
     {
-        if (self::$catalogueService->isUserExists($email)) {
+        if (self::$catalogueService::isUserExists($email)) {
         throw new UserException("Email already exists");
     }
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $userData = [
+        'name' => $name,
         'user_id' => $email,
         'password' => $hashedPassword,
         'role' => UserRole::USER->value
     ];
 
-    return DatabaseServiceInterface::createUser($userData);
+    return self::$catalogueService::createUser($userData);
         
     }
 
@@ -60,6 +57,7 @@ class AuthnService implements AuthnServiceInterface
         if (password_verify($password, $user->password)) {
             return new UserEntity(
                 (string)$user->id,
+                $user->name,
                 $user->user_id,
                 $user->password,
                 (int)$user->Role
@@ -81,6 +79,7 @@ class AuthnService implements AuthnServiceInterface
 
         return new UserEntity(
             (string)$user->id,
+            $user->name,
             $user->user_id,
             $user->password,
             (int)$user->Role
