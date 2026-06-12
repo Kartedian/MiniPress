@@ -30,7 +30,7 @@ return function (App $app): App {
 
     //Article
     //Post
-    $app->post('/article/{id:\d+}/toggle-publish', ArticleTogglePublishAction::class);
+    $app->post('/article/{id:\d+}/toggle-publish', ArticleTogglePublishAction::class)->setName('article_toggle_publish');
     $app->post('/article/create[/]', CreateArticleAction::class);
     //Get
     $app->get('/articles[/]', ArticleListeAction::class)->setName('articles');
