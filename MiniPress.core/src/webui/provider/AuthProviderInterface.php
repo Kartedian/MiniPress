@@ -10,13 +10,15 @@ interface AuthProviderInterface
 {
     public static function login(String $id, String $password): bool;
 
-    public static function register(String $id, String $password, String $passwordConfirm): bool;
+    public static function register(string $name, String $id, String $password, String $passwordConfirm): bool;
 
     public static function logout(): void;
 
-    public static function getCurrentUser(): ?UserEntity;
+    public static function getUser(): ?UserEntity;
 
     public static function isAuthenticated(): bool;
 
     public static function isAuthorized(UserRole ...$requiredRole): bool;
+
+    public static function getUserId(): ?string;
 }

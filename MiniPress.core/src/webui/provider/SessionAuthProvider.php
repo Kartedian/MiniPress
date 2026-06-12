@@ -10,6 +10,7 @@ use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface
 use Dwm\MiniPress\application_core\application\usecases\UserRole;
 use Dwm\MiniPress\application_core\domain\exceptions\UserException;
 use Dwm\MiniPress\webui\provider\AuthProviderInterface;
+use Override;
 
 class SessionAuthProvider implements AuthProviderInterface
 {
@@ -42,14 +43,16 @@ class SessionAuthProvider implements AuthProviderInterface
 
 
 
-    public static function register(String $id, String $password, String $passwordConfirm): bool
+    public static function register(string $name, String $id, String $password, String $passwordConfirm): bool
     {
-        try {
-            AuthnService::register($id, $password);
-            return true;
-        } catch (UserException $e) {
-            return false;
-        }
+        if( $password === $passwordConfirm)
+            try {
+                AuthnService::register($name, $id, $password);
+                return true;
+            } catch (UserException $e) {
+                return false;
+            }
+        return false;
     }
 
 
@@ -61,7 +64,7 @@ class SessionAuthProvider implements AuthProviderInterface
 
     
 
-    public static function getCurrentUser(): ?UserEntity{
+    public static function getUser(): ?UserEntity{
         if (!isset($_SESSION['user_id'])) {
             return null;
         }
@@ -82,7 +85,7 @@ class SessionAuthProvider implements AuthProviderInterface
 
     public static function isAuthorized(UserRole ...$requiredRole): bool
     {
-        $currentUser = self::getCurrentUser();
+        $currentUser = self::getUser();
         if (!$currentUser) {
             return false;
         }
@@ -97,5 +100,12 @@ class SessionAuthProvider implements AuthProviderInterface
 
     }
 
+    public static function getUserId(): ?string
+    {
+        if (!isset($_SESSION['user_id'])) {
+            return null;
+        }
 
+        return $_SESSION['user_id'];
+    }
 }
