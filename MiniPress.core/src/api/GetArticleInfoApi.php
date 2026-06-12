@@ -15,7 +15,7 @@ class GetArticleInfoApi
     {
         $id_a = $request->getAttribute('id_a');
 
-        $article = $this->catalogueService->getArticlesById($id_a);
+        $article = $this->catalogueService::getArticleById($id_a);
 
         $payload = json_encode($article);
         
