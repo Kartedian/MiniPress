@@ -22,11 +22,25 @@ use Dwm\MiniPress\webui\actions\CategorieListeAction;
 use Dwm\MiniPress\webui\actions\CreateArticleAction;
 use Dwm\MiniPress\webui\actions\CreateCategorieAction;
 use Dwm\MiniPress\webui\actions\CategorieDetailAction;
+use Dwm\MiniPress\webui\actions\LoginAction;
+use Dwm\MiniPress\webui\actions\RegisterAction;
+use Dwm\MiniPress\webui\actions\LogoutAction;
 
 return function (App $app): App {
 
     //Accueil
     $app->get('/', AccueilAction::class)->setName('accueil');
+
+    //Login
+    $app->post('/login[/]', LoginAction::class);
+    $app->get('/login[/]', LoginAction::class)->setName('login');
+
+    //Register
+    $app->post('/register[/]', RegisterAction::class);
+    $app->get('/register[/]', RegisterAction::class)->setName('register');
+
+    //Logout
+    $app->get('/logout', LogoutAction::class)->setName('logout');
 
     //Article
     //Post
