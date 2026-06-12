@@ -8,12 +8,12 @@ class AuthnProvider
 {
     public static function register(string $email, string $password): bool
     {
-        return AuthnService::register($email, $password);
+        return (AuthnService::register($email, $password) !== null);
     }
 
     public static function authenticate(string $email, string $password): bool
     {
-        $res = AuthnService::authenticate($email, $password);
+        $res = AuthnService::login($email, $password);
         if ($res) {
             $_SESSION['user_id'] = $res['user_id'];
             $_SESSION['role'] = $res['role'];

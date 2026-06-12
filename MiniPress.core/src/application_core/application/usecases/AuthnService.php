@@ -18,10 +18,10 @@ enum UserRole: int
 class AuthnService implements AuthnServiceInterface
 {   
 
-    private CatalogueServiceInterface $catalogueService;
+    private DatabaseServiceInterface $catalogueService;
     private AuthProviderInterface $authProvider;
 
-    public function __construct(CatalogueServiceInterface $catalogueService, AuthProviderInterface $authProvider)
+    public function __construct(DatabaseServiceInterface $catalogueService, AuthProviderInterface $authProvider)
     {
         $this->catalogueService = $catalogueService;
         $this->authProvider = $authProvider;
@@ -29,7 +29,7 @@ class AuthnService implements AuthnServiceInterface
 
 
 
-    public function register(string $email, string $password): UserEntity 
+    public static function register(string $email, string $password): UserEntity 
     {
         // Validation des données d'entrée
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -91,7 +91,7 @@ class AuthnService implements AuthnServiceInterface
 
 
 
-    public function login(string $email, string $password): ?UserEntity
+    public static function login(string $email, string $password): ?UserEntity
     {
         if (empty($email) || empty($password)) { 
             return null;
@@ -161,6 +161,10 @@ class AuthnService implements AuthnServiceInterface
     private function verifyPassword(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
+    }
+
+    public static function getUserById(string $userId): ?UserEntity{
+        return null;
     }
 
 }
