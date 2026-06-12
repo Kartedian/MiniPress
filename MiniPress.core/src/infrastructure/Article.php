@@ -25,7 +25,7 @@ class Article extends Model{
         return $this->belongsTo(User::class, 'id_auteur', 'id');
     }
 
-    public function categorie()
+    public function categorieRelation()
     {
         return $this->belongsTo(Categorie::class, 'categorie', 'id');
     }

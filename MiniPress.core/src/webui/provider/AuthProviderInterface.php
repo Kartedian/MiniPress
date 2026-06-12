@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dwm\MiniPress\Webui\Providers;
+namespace Dwm\MiniPress\webui\provider;
 
 use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\application_core\application\usecases\UserRole;

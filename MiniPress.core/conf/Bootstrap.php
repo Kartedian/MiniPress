@@ -16,8 +16,8 @@ use Dwm\MiniPress\application_core\application\usecases\DatabaseService;
 use Dwm\MiniPress\application_core\application\usecases\AuthnServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\AuthnService;
 
-use Dwm\MiniPress\Webui\providers\AuthProviderInterface;
-use Dwm\MiniPress\Webui\providers\SessionAuthProvider;
+use Dwm\MiniPress\webui\provider\AuthProviderInterface;
+use Dwm\MiniPress\webui\provider\SessionAuthProvider;
 
 // --- Base de données ----------------------------------------------------------
 $config = parse_ini_file(__DIR__ . '/confdb.ini');
@@ -28,6 +28,8 @@ if ($config !== false) {
     $db->bootEloquent();
 }
 
+require_once __DIR__ . '/ContainerWrapper.php';
+
 // --- Conteneur DI -------------------------------------------------------------
 $container = new Container();
 $container->bind(DatabaseServiceInterface::class, DatabaseService::class);
@@ -35,7 +37,7 @@ $container->bind(AuthProviderInterface::class, SessionAuthProvider::class);
 $container->bind(AuthnServiceInterface::class, AuthnService::class);
 
 // --- Application --------------------------------------------------------------
-AppFactory::setContainer($container);
+AppFactory::setContainer(new ContainerWrapper($container));
 $app = AppFactory::create();
 
 $container->bind(RouteParserInterface::class, fn() => $app->getRouteCollector()->getRouteParser());

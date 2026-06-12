@@ -1,5 +1,5 @@
 <?php
-namespace Dwm\MiniPress\webui\Provider;
+namespace Dwm\MiniPress\webui\provider;
 
 class CsrfTokenProvider
 {

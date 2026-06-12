@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Dwm\MiniPress\Webui\Providers;
+namespace Dwm\MiniPress\webui\provider;
 
 
 use Dwm\MiniPress\application_core\domain\entities\UserEntity;
@@ -9,6 +9,7 @@ use Dwm\MiniPress\application_core\application\usecases\AuthnService;
 use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
 use Dwm\MiniPress\application_core\application\usecases\UserRole;
 use Dwm\MiniPress\application_core\domain\exceptions\UserException;
+use Dwm\MiniPress\webui\provider\AuthProviderInterface;
 
 class SessionAuthProvider implements AuthProviderInterface
 {
