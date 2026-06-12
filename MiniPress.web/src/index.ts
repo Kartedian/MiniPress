@@ -4,6 +4,8 @@ import { fetchArticles, fetchCategories, fetchArticle, fetchArticlesByCategorie 
 
 let currentSortOrder: 'asc' | 'desc' = 'desc';
 
+let currentKeyword: string = '';
+
 
 async function renderArticles(fetchPromise: Promise<any[]>) {
     const appContainer = document.getElementById('app');
@@ -11,22 +13,33 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
 
     appContainer.innerHTML = '<p>Chargement des articles en cours...</p>';
 
-
-
     try {
         const articles = await fetchPromise;
 
-        // Tri des articles en fonction de la date et de l'ordre de tri sélectionné
-        const articlesTries = articles.sort((a, b) => {
-            const dateA = new Date(typeof a.date === 'string' ? a.date : a.date?.date).getTime();
-            const dateB = new Date(typeof b.date === 'string' ? b.date : b.date?.date).getTime();
+        const articlesFiltresParMotCle = articles.filter(art => {
+            if (!currentKeyword) return true; 
             
-            return currentSortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+            const recherche = currentKeyword.toLowerCase();
+            const titreContient = art.titre ? art.titre.toLowerCase().includes(recherche) : false;
+            
+            const texteResume = art.resumer || art.resume || '';
+            const resumeContient = texteResume.toLowerCase().includes(recherche);
 
+            return titreContient || resumeContient;
         });
 
 
-        // Formatage des articles pour faciliter l'affichage
+
+
+        // Tri des articles filtrés par date
+        const articlesTries = articlesFiltresParMotCle.sort((a, b) => {
+            const dateA = new Date(typeof a.date === 'string' ? a.date : a.date?.date).getTime();
+            const dateB = new Date(typeof b.date === 'string' ? b.date : b.date?.date).getTime();
+            return currentSortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+        });
+
+
+        
         const articlesFormates = articlesTries.map(art => {
             const idExtrait = art.url ? art.url.split('/').pop() : '';
             return {
@@ -38,14 +51,22 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         });
 
         const templateSource = `
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
                 <h2>Articles</h2>
-                <div>
-                    <label for="sortOrder"><strong>Trier par date : </strong></label>
-                    <select id="sortOrder" style="padding: 0.3rem;">
-                        <option value="desc" {{#if isDesc}}selected{{/if}}>Plus récents </option>
-                        <option value="asc" {{#if isAsc}}selected{{/if}}>Plus anciens</option>
-                    </select>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    
+                    <div>
+                        <label for="searchInput"><strong>Recherche : </strong></label>
+                        <input type="text" id="searchInput" value="{{keyword}}" placeholder="Titre ou résumé..." style="padding: 0.3rem; width: 200px;">
+                    </div>
+
+                    <div>
+                        <label for="sortOrder"><strong>Trier : </strong></label>
+                        <select id="sortOrder" style="padding: 0.3rem;">
+                            <option value="desc" {{#if isDesc}}selected{{/if}}>Plus récents</option>
+                            <option value="asc" {{#if isAsc}}selected{{/if}}>Plus anciens</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -54,6 +75,7 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
                     {{#each articles}}
                     <article class="article-item">
                         <h3><a href="{{this.frontendUrl}}">{{this.titre}}</a></h3>
+                        <p style="color: #555; margin: 0.5rem 0;"><em>{{this.resumeAffiche}}</em></p>
                         <div class="article-meta">
                             <span><strong>Auteur :</strong> <a href="#/auteurs/{{this.auteurId}}" style="color: #007BFF; text-decoration: none;">{{this.auteurNom}}</a></span> | 
                             <span><strong>Date :</strong> {{this.date}}</span>
@@ -62,23 +84,34 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
                     {{/each}}
                 </div>
             {{else}}
-                <p>Aucun article trouvé.</p>
+                <p>Aucun article ne correspond à votre recherche.</p>
             {{/if}}
         `;
         
         const template = Handlebars.compile(templateSource);
-        
+
         appContainer.innerHTML = template({ 
             articles: articlesFormates,
             isDesc: currentSortOrder === 'desc',
-            isAsc: currentSortOrder === 'asc'
+            isAsc: currentSortOrder === 'asc',
+            keyword: currentKeyword 
         });
 
+
+        // Ajout de l'écouteur/evenement pour le select de tri
         const sortSelect = document.getElementById('sortOrder') as HTMLSelectElement;
         if (sortSelect) {
             sortSelect.addEventListener('change', (event) => {
                 currentSortOrder = (event.target as HTMLSelectElement).value as 'asc' | 'desc';
-                
+                handleNavigation(); 
+            });
+        }
+
+        // Ajout de l'écouteur/evenement pour le champ de recherche
+        const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+        if (searchInput) {
+            searchInput.addEventListener('change', (event) => {
+                currentKeyword = (event.target as HTMLInputElement).value;
                 handleNavigation(); 
             });
         }
@@ -88,6 +121,9 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         appContainer.innerHTML = '<p style="color: red;">Erreur de connexion à l\'API pour les articles.</p>';
     }
 }
+
+
+
 
 
 
