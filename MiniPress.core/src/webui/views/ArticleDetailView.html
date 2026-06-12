@@ -32,7 +32,7 @@
         {% endif %}
         <p class="meta-data">
             <small>
-                Publié le {{ article['date'] }}
+                Publié le {{ article['date'] | date("d/m/Y") }}
 
                 - Catégorie : {{ article['categorie'] }}
             </small>

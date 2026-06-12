@@ -21,7 +21,7 @@
 <ul>
     {% for article in articles %}
         <li>
-            <a href="{{ url_for('article_detail', {'id': article.id}) }}">{{ article.titre }} - {{ article.date }}</a>
+            <a href="{{ url_for('article_detail', {'id': article.id}) }}">{{ article.titre }} - {{ article.date | date("d/m/Y") }}</a>
         </li>
     {% endfor %}
 </ul>
