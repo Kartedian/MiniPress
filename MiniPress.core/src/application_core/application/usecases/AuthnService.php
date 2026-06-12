@@ -87,6 +87,16 @@ class AuthnService implements AuthnServiceInterface
         
     }
 
+    public static function getNameUserById(string $userId): ?string{
+        $user = self::$catalogueService->findUserById($userId);
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user->name;
+    }
+
 
     private function hashPassword(string $password): string
     {
