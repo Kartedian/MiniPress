@@ -65,6 +65,20 @@ class ArticleService {
     return sorted;
   }
 
+  /// Retourne les articles d'une catégorie, triés par date décroissante.
+  List<Article> getArticlesByCategory(String category) {
+    final filtered = _articles.where((a) => a.category == category).toList();
+    filtered.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return filtered;
+  }
+
+  /// Retourne la liste des catégories uniques triées alphabétiquement.
+  List<String> getCategories() {
+    final categories = _articles.map((a) => a.category).toSet().toList();
+    categories.sort();
+    return categories;
+  }
+
   Article? getArticleById(int id) {
     try {
       return _articles.firstWhere((a) => a.id == id);
