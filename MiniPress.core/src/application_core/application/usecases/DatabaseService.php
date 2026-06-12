@@ -26,8 +26,7 @@ class DatabaseService implements DatabaseServiceInterface
 
     public static function getArticles(): array{
 
-        return Article::order('date', 'desc')
-
+        return Article::orderBy('date', 'desc')
                         ->get()
                         ->map(fn($a) => new ArticleEntity(
                             $a->id,
@@ -44,7 +43,7 @@ class DatabaseService implements DatabaseServiceInterface
 
     public static function getArticlesFromCategory(int $id_categ): array{
         return Article::where('categorie', $id_categ)
-                        ->orderBy('date')
+                        ->orderBy('date', 'desc')
                         ->get()
                         ->map(fn($a) => new ArticleEntity(
                             $a->id,
