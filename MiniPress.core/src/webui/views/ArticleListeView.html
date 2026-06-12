@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block title %}Liste Article - MiniPress{% endblock %}
+
+{% block content %}
+<h1>Liste des Articles</h1>
+<br>
+<form method="get" action="">
+    <div class="_categorie">
+        <label for="categorie">Categorie</label>
+        <select id="categorie" name="categorie">
+            <option value="">--Toutes les catégories--</option>
+            {% for categorie in categories %}
+                <option value="{{ categorie.id }}" {% if current_cat == categorie.id %}selected{% endif %}>
+                    {{ categorie.libelle }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{{ url_for('article_detail', {'id': article.id}) }}">{{ article.titre }} - {{ article.date }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<br>
+<a href="{{ url_for('article_create') }}">Créer une nouvelle catégorie</a>
+{% endblock %}

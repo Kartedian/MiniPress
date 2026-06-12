@@ -9,7 +9,9 @@ use Dwm\MiniPress\infrastructure\Categorie;
 use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\infrastructure\User;
 use Ramsey\Uuid\Uuid;
-
+use Dwm\MiniPress\application_core\domain\exceptions\DatabaseException;
+use Override;
+use Throwable;
 
 class DatabaseService implements DatabaseServiceInterface
 {
@@ -22,34 +24,163 @@ class DatabaseService implements DatabaseServiceInterface
         ))->all();
     }
 
+    public static function getArticles(): array{
+        return Article::order('date')
+                        ->get()
+                        ->map(fn($a) => new ArticleEntity(
+                            $a->id,
+                            $a->titre,
+                            $a->resumer,
+                            $a->contenue,
+                            $a->date,
+                            $a->categorie,
+                            $a->url_image,
+                            $a->id_auteur,
+                            $a->published
+                        ))->all();
+    }
+
+    public static function getArticlesFromCategory(int $id_categ): array{
+        return Article::where('categorie', $id_categ)
+                        ->order('date')
+                        ->get()
+                        ->map(fn($a) => new ArticleEntity(
+                            $a->id,
+                            $a->titre,
+                            $a->resumer,
+                            $a->contenue,
+                            $a->date,
+                            $a->categorie,
+                            $a->url_image,
+                            $a->id_auteur,
+                            $a->published
+                        ))->all();
+    }
+
+    public static function getArticleById(string $id): ?array{
+        try{
+            $article = Article::findOrFail($id);
+        } catch (Throwable $e) {
+            throw DatabaseException::erreurRecuperation("erreur lors de la récupération de la prestation {$id} : {$e->getMessage()}");
+        }
+
+        return [
+            'id' => $article->id,
+            'titre' => $article->titre,
+            'resumer' => $article->resumer,
+            'contenue' => $article->contenue,
+            'date' => $article->date,
+            'categorie' => $article->categorie,
+            'url_image' => $article->url_image,
+            'id_auteur' => $article->id_auteur,
+            'published' => $article->published
+        ];
+    }
+
+    public static function getArticlesByIdAuteur(string $id_auteur): array{
+        return [];
+    }
+
     public static function creerArticle(
         string $titre,
         ?string $resumer,
         ?string $contenue,
         int $categorie,
+        string $url_image,
         string $idAuteur
     ): ?ArticleEntity {
+        $article = Article::create([
+            'titre' => $titre,
+            'resumer' => $resumer,
+            'contenue' => $contenue,
+            'date' => date('Y-m-d'),
+            'categorie' => $categorie,
+            'url_image' => $url_image,
+            'id_auteur' => $idAuteur
+        ]);
+
+        if ($article) {
+            return new ArticleEntity(
+                $article->id,
+                $article->titre,
+                $article->resumer,
+                $article->contenue,
+                $article->date,
+                $article->categorie,
+                $article->url_image,
+                $article->id_auteur,
+                $article->published
+            );
+        }
         return null;
     }
 
 
-        
-    public static function findByUserId(string $userId): ?UserEntity
+    public static function creerCategorie(string $libelle, ?string $description): ?CategorieEntity
+    {
+        $categorie = Categorie::create([
+            'libelle' => $libelle,
+            'description' => $description
+        ]);
+
+        if($categorie){
+            return new CategorieEntity(
+                $categorie->id,
+                $categorie->libelle,
+                $categorie->description
+            );
+        }
+        return null;
+    }
+
+    public static function updatePublishStatus(string $id, int $public)
+    {
+        $article = Article::find($id);
+
+        if($article !== null){
+            $article->published = $public;
+
+            $article->save();
+        } else {
+        throw new \Exception("Article introuvable");
+        }
+    }
+
+    public static function getCategorieById(int $id): ?array{
+        try{
+            $categorie = Categorie::findOrFail($id);
+        } catch (Throwable $e) {
+            throw DatabaseException::erreurRecuperation("erreur lors de la récupération de la prestation {$id} : {$e->getMessage()}");
+        }
+
+        return [
+            'id' => $categorie->id,
+            'libelle' => $categorie->libelle,
+            'description' => $categorie->description
+        ];
+    }
+
+
+
+    
+       
+
+    public static function findUserByUserId(string $userId): ?UserEntity
     {
         return User::where('user_id', $userId)->first();
     }
 
-    public static function findByEmail(string $email): ?UserEntity
+    public static function findUserByEmail(string $email): ?UserEntity
     {
         return User::where('user_id', $email)->first();
     }
 
-    public static function findById(string $id): ?UserEntity
+    public static function findUserById(string $id): ?UserEntity
     {
         return User::find($id);
     }
 
-    public static function create(array $userData): UserEntity
+    public static function createUser(array $userData): UserEntity
     {
         $user = new User();
         
@@ -75,7 +206,7 @@ class DatabaseService implements DatabaseServiceInterface
         );
     }
 
-    public static function save(UserEntity $user): bool
+    public static function saveUser(UserEntity $user): bool
     {   
         $model = User::find($user->id);
         
@@ -91,7 +222,7 @@ class DatabaseService implements DatabaseServiceInterface
         return $model->save();
     }
 
-    public static function delete(UserEntity $user): bool
+    public static function deleteUser(UserEntity $user): bool
     {
         $model = User::find($user->id);
         
@@ -102,7 +233,7 @@ class DatabaseService implements DatabaseServiceInterface
         return false;
     }
 
-    public static function emailExists(string $email): bool
+    public static function isUserExists(string $email): bool
     {
         return User::where('user_id', $email)->exists();
     }
@@ -116,6 +247,7 @@ class DatabaseService implements DatabaseServiceInterface
 
 
 
+    
     
 
 }

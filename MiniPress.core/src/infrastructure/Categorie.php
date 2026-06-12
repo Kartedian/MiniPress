@@ -10,4 +10,9 @@ class Categorie extends Model{
     protected $primaryKey = 'id';
 
     public $timestamps = false;
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class, 'id_auteur', 'id');
+    }
 }

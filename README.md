@@ -14,11 +14,11 @@ formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistré
 
 | Fonctionnalité                                        | État | Développeur |
 | ------------------------------------------------------| ---- | ----------- |
-| 1. Création d'un article                              | ✅ |     Jules    |
-| 2. Création d'un article avec sélection de catégorie  | ✅ |     Jules    |
-| 3. Liste des articles triés par date décroissante     |      |             |
-| 4. Filtrage des articles par catégorie                |      |             |
-| 5. Création de catégories                             |      |             |
+| 1. Création d'un article                              | ✅ |     Walid    |
+| 2. Création d'un article avec sélection de catégorie  | ✅ |     Walid    |
+| 3. Liste des articles triés par date décroissante     | ✅ |     Walid    |
+| 4. Filtrage des articles par catégorie                | ✅ |     Walid    |
+| 5. Création de catégories                             | ✅ |     Walid    |
 | 6. Authentification des utilisateurs                  |      |             |
 | 7. Contrôle d'accès aux fonctionnalités protégées     |      |             |
 | 8. Gestion des auteurs des articles                   |      |             |
@@ -27,7 +27,7 @@ formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistré
 | 11. API - Articles d'une catégorie                    |      |             |
 | 12. API - Article complet                             |      |             |
 | 13. API - Articles d'un auteur                        |      |             |
-| 14. Publication / Dépublication des articles          |      |             |
+| 14. Publication / Dépublication des articles          | ✅ |     Walid    |
 | 15. Création d'utilisateurs par l'administrateur      |      |             |
 | 16. Tri des articles dans l'API (date/auteur)         |      |             |
 

@@ -22,14 +22,12 @@ class AuthnService implements AuthnServiceInterface
     private DatabaseServiceInterface $catalogueService;
     private AuthProviderInterface $authProvider;
 
-
+    
     public function __construct(DatabaseServiceInterface $catalogueService, AuthProviderInterface $authProvider)
     {
         $this->catalogueService = $catalogueService;
         $this->authProvider = $authProvider;
     }
-
-
 
 
     public static function register(string $email, string $password): UserEntity 
@@ -50,9 +48,6 @@ class AuthnService implements AuthnServiceInterface
     }
 
     
-
-
-
 
 
     public static function login(string $email, string $password): ?UserEntity
@@ -91,6 +86,19 @@ class AuthnService implements AuthnServiceInterface
             (int)$user->Role
         );
         
+    }
+
+
+    private function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_BCRYPT, [
+            'cost' => 12, 
+        ]);
+    }
+
+    private function verifyPassword(string $password, string $hash): bool
+    {
+        return password_verify($password, $hash);
     }
 
 
