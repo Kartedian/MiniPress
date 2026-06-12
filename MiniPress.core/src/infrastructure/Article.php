@@ -16,6 +16,16 @@ class Article extends Model{
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'titre', 
+        'resumer', 
+        'contenue', 
+        'categorie', 
+        'url_image', 
+        'id_auteur',
+        'published'
+    ];
+
     protected $casts = [
         'date' => 'datetime',
     ];
