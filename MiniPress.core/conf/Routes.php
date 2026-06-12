@@ -50,7 +50,7 @@ return function (App $app): App {
     $app->get('/articles[/]', ArticleListeAction::class)->setName('articles');
     $app->get('/article/create[/]', CreateArticleAction::class)->setName('article_create');
 
-    $app->post('/article/{id:\d+}/toggle-publish', ArticleTogglePublishAction::class)->setName('article_toggle_publish');
+    $app->post('/article/{id}/toggle-publish', ArticleTogglePublishAction::class)->setName('article_toggle_publish');
     $app->get('/article/{id}[/]', ArticleDetailAction::class)->setName('article_detail');
 
     //Categorie
