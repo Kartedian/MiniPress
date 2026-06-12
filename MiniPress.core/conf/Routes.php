@@ -30,20 +30,23 @@ return function (App $app): App {
 
     //Article
     //Post
-    $app->post('/article/{id:\d+}/toggle-publish', ArticleTogglePublishAction::class)->setName('article_toggle_publish');
     $app->post('/article/create[/]', CreateArticleAction::class);
+
     //Get
     $app->get('/articles[/]', ArticleListeAction::class)->setName('articles');
-    $app->get('/article/{id:\d+}[/]', ArticleDetailAction::class)->setName('article_detail');
     $app->get('/article/create[/]', CreateArticleAction::class)->setName('article_create');
+
+    $app->post('/article/{id:\d+}/toggle-publish', ArticleTogglePublishAction::class)->setName('article_toggle_publish');
+    $app->get('/article/{id}[/]', ArticleDetailAction::class)->setName('article_detail');
 
     //Categorie
     //Post
     $app->post('/categorie/create[/]', CreateCategorieAction::class);
     //Get
     $app->get('/categories[/]', CategorieListeAction::class)->setName('categories');
-    $app->get('/categorie/{id:\d+}[/]', CategorieDetailAction::class)->setName('categorie_detail');
     $app->get('/categorie/create[/]', CreateCategorieAction::class)->setName('categorie_create');
+
+    $app->get('/categorie/{id:\d+}[/]', CategorieDetailAction::class)->setName('categorie_detail');
 
 
     //API
