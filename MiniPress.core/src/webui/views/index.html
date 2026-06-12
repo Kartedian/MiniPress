@@ -1,91 +1,101 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>
-			{% block title %}MiniPress
-			{% endblock %}
-		</title>
-		<style>
-			body {
-				margin: 0;
-				font-family: Arial, sans-serif;
-				display: grid;
-				grid-template-areas: "header header" "nav main" "footer footer";
-				grid-template-rows: auto 1fr auto;
-				grid-template-columns: 200px 1fr;
-				min-height: 100vh;
-			}
 
-			header {
-				grid-area: header;
-				background-color: #333;
-				color: white;
-				padding: 1rem;
-				text-align: center;
-			}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+		{% block title %}MiniPress
+		{% endblock %}
+	</title>
+	<style>
+		body {
+			margin: 0;
+			font-family: Arial, sans-serif;
+			display: grid;
+			grid-template-areas: "header header" "nav main" "footer footer";
+			grid-template-rows: auto 1fr auto;
+			grid-template-columns: 200px 1fr;
+			min-height: 100vh;
+		}
 
-			nav {
-				grid-area: nav;
-				background-color: #f4f4f4;
-				padding: 1rem;
-				border-right: 1px solid #ddd;
-			}
+		header {
+			grid-area: header;
+			background-color: #333;
+			color: white;
+			padding: 1rem;
+			text-align: center;
+		}
 
-			nav ul {
-				list-style-type: none;
-				padding: 0;
-			}
+		nav {
+			grid-area: nav;
+			background-color: #f4f4f4;
+			padding: 1rem;
+			border-right: 1px solid #ddd;
+		}
 
-			nav ul li {
-				margin-bottom: 0.5rem;
-			}
+		nav ul {
+			list-style-type: none;
+			padding: 0;
+		}
 
-			nav ul li a {
-				text-decoration: none;
-				color: #333;
-			}
+		nav ul li {
+			margin-bottom: 0.5rem;
+		}
 
-			nav ul li a:hover {
-				color: #ff5e00;
-			}
+		nav ul li a {
+			text-decoration: none;
+			color: #333;
+		}
 
-			main {
-				grid-area: main;
-				padding: 2rem;
-			}
+		nav ul li a:hover {
+			color: #ff5e00;
+		}
 
-			footer {
-				grid-area: footer;
-				background-color: #333;
-				color: white;
-				text-align: center;
-				padding: 1rem;
-			}
-		</style>
-	</head>
-	<body>
+		main {
+			grid-area: main;
+			padding: 2rem;
+		}
 
-		<header>
-			<h1>MiniPress Admin</h1>
-		</header>
+		footer {
+			grid-area: footer;
+			background-color: #333;
+			color: white;
+			text-align: center;
+			padding: 1rem;
+		}
+	</style>
+</head>
 
-		<nav>
-			<ul>
-				{% if isAuthenticated %}
-				<li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
-				{% else %}
-				<li><a href="{{url_for('register') }}">S'enregistrer</a></li>
-				<li><a href="{{url_for('login') }}">Connexion</a></li>
-				{% endif %}
-			</ul>
-		</nav>
+<body>
 
-		<main>
-			{% block content %}{% endblock %}
-		</main>
+	<header>
+		<h1>MiniPress Admin</h1>
+	</header>
 
-		<footer></footer>
-	</body>
+	<nav>
+		<ul>
+			{% if isAuthenticated %}
+			<li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+			{% else %}
+			<li><a href="{{url_for('register') }}">S'enregistrer</a></li>
+			<li><a href="{{url_for('login') }}">Connexion</a></li>
+			{% endif %}
+		</ul>
+		<br>
+		<ul>
+			<li><a href="{{ url_for('accueil')}}">Accueil</a></li>
+			<li><a href="{{ url_for('categories') }}">Categories</a></li>
+			<li><a href="{{ url_for('articles') }}">Articles</a></li>
+			<li><a href="{{ url_for('article_create') }}">Creer un'Article</a></li>
+		</ul>
+	</nav>
+
+	<main>
+		{% block content %}{% endblock %}
+	</main>
+
+	<footer></footer>
+</body>
+
 </html>
