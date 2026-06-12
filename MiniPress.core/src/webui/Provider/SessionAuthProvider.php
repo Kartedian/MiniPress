@@ -6,11 +6,13 @@ namespace Dwm\MiniPress\Webui\Providers;
 
 use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\application_core\application\usecases\AuthnService;
-use Dwm\MiniPress\application_core\application\usecases\CatalogueService;
+use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface;
+use Dwm\MiniPress\application_core\application\usecases\UserRole;
+use Dwm\MiniPress\application_core\domain\exceptions\UserException;
 
 class SessionAuthProvider implements AuthProviderInterface
 {
-    private CatalogueServiceInterface $catalogueService;
+    private DatabaseServiceInterface $catalogueService;
 
     private const SESSION_USER_ID_KEY = 'auth_user_id';
 
@@ -18,138 +20,81 @@ class SessionAuthProvider implements AuthProviderInterface
 
     private const SESSION_TIMEOUT = 1800;
 
-    public function __construct(CatalogueServiceInterface $catalogueService)
+    public function __construct(DatabaseServiceInterface $catalogueService)
     {
         $this->catalogueService = $catalogueService;
 
     }
 
 
-    public function setActiveUserId(string $userId): void
-    {
-        session_regenerate_id(true);
 
-        $_SESSION[self::SESSION_USER_ID_KEY] = $userId; 
-        $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] = time();
 
-    }
-
-    public function clearActiveUser(): void
+    public static function login(string $email, string $password): bool
     {
-        $this->clearSession();
-    }
-    
-    public function getCurrentUserId(): ?string
-    {
-        if (!$this->isSessionValid()) {
-            return null;
+        $user = AuthnService::login($email, $password);
+        if ($user) {
+            $_SESSION['user_id'] = $user->id;
+            return true;
         }
-        return $_SESSION[self::SESSION_USER_ID_KEY] ?? null;
+        return false;
     }
 
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getSignedInUser(): ?UserEntity
+
+    public static function register(String $id, String $password, String $passwordConfirm): bool
     {
-        if (!$this->isSessionValid()) {
-            return null;
-        }
-
-        $userId = $_SESSION[self::SESSION_USER_ID_KEY] ?? null;
-        
-        if ($userId === null) {
-            return null;
-        }
-
         try {
-            $userRecord = $this->catalogueService->findById($userId);
-            
-            if ($userRecord !== null) {
-                $this->updateLastActivity();
-                
-                return new UserEntity(
-                    (string)$userRecord->id,
-                    $userRecord->user_id,
-                    $userRecord->password,
-                    (int)$userRecord->role
-                );
-            }
-            
-            return $userRecord;
-            
-        } catch (\Exception $e) {
-            $this->clearSession();
+            AuthnService::register($id, $password);
+            return true;
+        } catch (UserException $e) {
+            return false;
+        }
+    }
+
+
+    public static function logout(): void
+    {
+        $_SESSION = [];
+        session_destroy();
+    }
+
+    
+
+    public static function getCurrentUser(): ?UserEntity{
+        if (!isset($_SESSION['user_id'])) {
             return null;
         }
-    }
 
+        $userId = $_SESSION['user_id'];
+        return AuthnService::getUserById($userId);
 
-    public function isAuthenticated(): bool
-    {
-        return $this->getSignedInUser() !== null;
-    }
-
-    public function getUserRole(): ?int
-    {
-        $user = $this->getSignedInUser();
-        return $user ? $user->role : null;
     }
 
 
 
-    public function isAdmin(): bool
+
+    public static function isAuthenticated(): bool
     {
-        $user = $this->getSignedInUser();
-        return $user && $user->role === AuthnService::ROLE_ADMIN;
+        return isset($_SESSION['user_id']);
     }
 
-    
-    public function isUser(): bool
-    {
-        $user = $this->getSignedInUser();
-        return $user && $user->role === AuthnService::ROLE_USER;
-    }
 
-    private function createUserSession(UserEntity $user): void
+    public static function isAuthorized(UserRole ...$requiredRole): bool
     {
-        session_regenerate_id(true);
-        
-        $_SESSION[self::SESSION_USER_ID_KEY] = $user->id; 
-        $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] = time();
-        
-    
-        $_SESSION['auth_user_role'] = $user->role; 
-    }
-
-    private function clearSession(): void
-    {
-        unset($_SESSION[self::SESSION_USER_ID_KEY]);
-        unset($_SESSION[self::SESSION_LAST_ACTIVITY_KEY]);
-        unset($_SESSION['auth_user_role']);
-        
-        
-    }
-
-    private function isSessionValid(): bool
-    {
-        $lastActivity = $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] ?? null;
-        
-        if ($lastActivity === null) {
+        $currentUser = self::getCurrentUser();
+        if (!$currentUser) {
             return false;
         }
 
-        if ((time() - $lastActivity) > self::SESSION_TIMEOUT) {
-            $this->clearSession();
-            return false;
+        foreach ($requiredRole as $role) {
+            if ($currentUser->Role === $role->value) {
+                return true;
+            }
         }
+        return false;
+     
 
-        return true;
     }
 
-    private function updateLastActivity(): void
-    {
-        $_SESSION[self::SESSION_LAST_ACTIVITY_KEY] = time();
-    }
+
 }

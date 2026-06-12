@@ -8,15 +8,15 @@ use Dwm\MiniPress\application_core\application\usecases\UserRole;
 
 interface AuthProviderInterface
 {
-    public function login(String $id, String $password): void;
+    public static function login(String $id, String $password): bool;
 
-    public function register(String $id, String $password, String $passwordConfirm): void;
+    public static function register(String $id, String $password, String $passwordConfirm): bool;
 
-    public function logout(): void;
+    public static function logout(): void;
 
-    public function getCurrentUser(): ?UserEntity;
+    public static function getCurrentUser(): ?UserEntity;
 
-    public function isAuthenticated(): bool;
+    public static function isAuthenticated(): bool;
 
-    public function isAutorized(UserRole ...$requiredRole): bool;
+    public static function isAuthorized(UserRole ...$requiredRole): bool;
 }
