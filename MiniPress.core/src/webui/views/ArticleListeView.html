@@ -26,5 +26,41 @@
     {% endfor %}
 </ul>
 <br>
-<a href="{{ url_for('article_create') }}">Créer une nouvelle catégorie</a>
+
+{% if isAuthenticated %}
+    <hr class="separator">
+    
+    <div class="mes-articles-section">
+        
+        <div class="mes-articles-header">
+            <h2>Mes Articles</h2>
+            <a href="{{ url_for('article_create') }}" class="btn">+ Créer un nouvel article</a>
+        </div>
+
+        <ul class="mes-articles-list">
+            {% for mon_article in mes_articles %}
+                <li class="article-item">
+                    
+                    <a href="{{ url_for('article_detail', {'id': mon_article.id}) }}" class="article-title">
+                        {{ mon_article.titre }}
+                    </a>
+                    
+                    <span class="article-date">
+                        Créé le {{ mon_article.date | date("d/m/Y") }}
+                    </span>
+                    
+                    {% if mon_article.published == 1 %}
+                        <span class="badge badge-public">Public</span>
+                    {% else %}
+                        <span class="badge badge-depublie">Dépublié</span>
+                    {% endif %}
+                    
+                </li>
+            {% else %}
+                <p class="empty-message">Vous n'avez pas encore rédigé d'articles.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 {% endblock %}
