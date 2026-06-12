@@ -79,6 +79,13 @@ class ArticleService {
     return categories;
   }
 
+  /// Retourne les articles d'un auteur, triés par date décroissante.
+  List<Article> getArticlesByAuthor(String author) {
+    final filtered = _articles.where((a) => a.author == author).toList();
+    filtered.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return filtered;
+  }
+
   Article? getArticleById(int id) {
     try {
       return _articles.firstWhere((a) => a.id == id);
