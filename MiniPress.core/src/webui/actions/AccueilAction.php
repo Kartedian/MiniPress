@@ -14,8 +14,6 @@ class AccueilAction
 
     public function __invoke(Request $request, Response $response, array $args){
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'AccueilView.html', [
-            'isAuthenticated' => $this->authProvider::isAuthenticated()
-        ]);
+        return $view->render($response, 'AccueilView.html');
     }
 }
