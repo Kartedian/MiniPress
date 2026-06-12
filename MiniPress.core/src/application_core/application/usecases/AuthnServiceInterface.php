@@ -10,4 +10,6 @@ interface AuthnServiceInterface {
     public static function login(string $email, string $password): ?UserEntity;
 
     public static function getUserById(string $userId): ?UserEntity;
+
+    public static function getNameUserById(string $userId): ?string;
 }
