@@ -10,7 +10,6 @@ use Dwm\MiniPress\application_core\application\usecases\DatabaseServiceInterface
 use Dwm\MiniPress\application_core\application\usecases\UserRole;
 use Dwm\MiniPress\application_core\domain\exceptions\UserException;
 use Dwm\MiniPress\webui\provider\AuthProviderInterface;
-use Override;
 
 class SessionAuthProvider implements AuthProviderInterface
 {
