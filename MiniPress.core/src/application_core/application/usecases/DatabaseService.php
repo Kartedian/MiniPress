@@ -25,14 +25,14 @@ class DatabaseService implements DatabaseServiceInterface
     }
 
     public static function getArticles(): array{
-        return Article::order('date')
+        return Article::order('date', 'desc')
                         ->get()
                         ->map(fn($a) => new ArticleEntity(
                             $a->id,
                             $a->titre,
                             $a->resumer,
                             $a->contenue,
-                            $a->date,
+                            new \DateTime($a->date),
                             $a->categorie,
                             $a->url_image,
                             $a->id_auteur,
@@ -49,7 +49,7 @@ class DatabaseService implements DatabaseServiceInterface
                             $a->titre,
                             $a->resumer,
                             $a->contenue,
-                            $a->date,
+                            new \DateTime($a->date),
                             $a->categorie,
                             $a->url_image,
                             $a->id_auteur,
@@ -69,7 +69,7 @@ class DatabaseService implements DatabaseServiceInterface
             'titre' => $article->titre,
             'resumer' => $article->resumer,
             'contenue' => $article->contenue,
-            'date' => $article->date,
+            'date' => new \DateTime($article->date),
             'categorie' => $article->categorie,
             'url_image' => $article->url_image,
             'id_auteur' => $article->id_auteur,
@@ -78,7 +78,20 @@ class DatabaseService implements DatabaseServiceInterface
     }
 
     public static function getArticlesByIdAuteur(string $id_auteur): array{
-        return [];
+        return Article::where('id_auteur', $id_auteur)
+                        ->order('date', 'desc')
+                        ->get()
+                        ->map(fn($a) => new ArticleEntity(
+                            $a->id,
+                            $a->titre,
+                            $a->resumer,
+                            $a->contenue,
+                            new \DateTime($a->date),
+                            $a->categorie,
+                            $a->url_image,
+                            $a->id_auteur,
+                            $a->published
+                        ))->all();
     }
 
     public static function creerArticle(
@@ -93,7 +106,7 @@ class DatabaseService implements DatabaseServiceInterface
             'titre' => $titre,
             'resumer' => $resumer,
             'contenue' => $contenue,
-            'date' => date('Y-m-d'),
+            'date' => new \DateTime(),
             'categorie' => $categorie,
             'url_image' => $url_image,
             'id_auteur' => $idAuteur
@@ -105,7 +118,7 @@ class DatabaseService implements DatabaseServiceInterface
                 $article->titre,
                 $article->resumer,
                 $article->contenue,
-                $article->date,
+                new \DateTime($article->date),
                 $article->categorie,
                 $article->url_image,
                 $article->id_auteur,
