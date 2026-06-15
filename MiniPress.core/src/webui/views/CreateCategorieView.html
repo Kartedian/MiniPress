@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block title %}Create Categorie - MiniPress{% endblock %}
+
+{% block content %}
+<h1>Créer une nouvelle Categorie</h1>
+    <form method="post" action="{{ url_for('article_create')}}">
+        <div class="_libelle">
+            <label for="libelle">Libelle</label>
+            <input type="text" id="libelle" name="libelle" required>
+        </div>
+
+        <div class="_description">
+            <label for="description">Resumer</label>
+            <textarea id="description" name="description" rows="10"></textarea>
+        </div>
+
+        <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}">
+        <div>
+            <button type="submit">Créer categorie</button>
+        </div>
+{% endblock %}

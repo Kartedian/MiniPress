@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block title %}Liste Article - MiniPress{% endblock %}
+
+{% block content %}
+<h1>Liste des Articles</h1>
+<br>
+<form method="get" action="">
+    <div class="_categorie">
+        <label for="categorie">Categorie</label>
+        <select id="categorie" name="categorie" onchange="this.form.submit()">
+            <option value="">--Toutes les catégories--</option>
+            {% for categorie in categories %}
+                <option value="{{ categorie.id }}" {% if current_cat == categorie.id %}selected{% endif %}>
+                    {{ categorie.libelle }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{{ url_for('article_detail', {'id': article.id}) }}">{{ article.titre }} - {{ article.date | date("d/m/Y") }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<br>
+
+{% if isAuthenticated %}
+    <hr class="separator">
+    
+    <div class="mes-articles-section">
+        
+        <div class="mes-articles-header">
+            <h2>Mes Articles</h2>
+            <a href="{{ url_for('article_create') }}" class="btn">+ Créer un nouvel article</a>
+        </div>
+
+        <ul class="mes-articles-list">
+            {% for mon_article in mes_articles %}
+                <li class="article-item">
+                    
+                    <a href="{{ url_for('article_detail', {'id': mon_article.id}) }}" class="article-title">
+                        {{ mon_article.titre }}
+                    </a>
+                    
+                    <span class="article-date">
+                        Créé le {{ mon_article.date | date("d/m/Y") }}
+                    </span>
+                    
+                    {% if mon_article.published == 1 %}
+                        <span class="badge badge-public">Public</span>
+                    {% else %}
+                        <span class="badge badge-depublie">Dépublié</span>
+                    {% endif %}
+                    
+                </li>
+            {% else %}
+                <p class="empty-message">Vous n'avez pas encore rédigé d'articles.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% endblock %}

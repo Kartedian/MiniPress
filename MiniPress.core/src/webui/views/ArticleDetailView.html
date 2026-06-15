@@ -1,0 +1,76 @@
+{% extends "index.html" %}
+
+{% block title %}{{ article['titre'] }} - MiniPress{% endblock %}
+
+{% block content %}
+<article class="article-detail">
+    <header>
+        <h1>{{ article['titre'] }}</h1>
+        
+        {% if is_owner %}
+        <div class="publication-control"
+            style="margin: 15px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+            <p>Etat actuel: <strong>
+                {% if article['published'] == 1 %}
+                    Public
+                {% else %}
+                    Depublic
+                {% endif%}</strong></p>
+
+            <form method="post" action="{{ url_for('article_toggle_publish', {'id': article['id']}) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <button type="submit" class="btn">
+                    {% if article['published'] == 1 %}
+                    Désactiver (Dépublier)
+                    {% else %}
+                    Activer (Publier)
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+        {% endif %}
+        
+        <p class="meta-data">
+            <small>
+                Publié le {{ article['date'] | date("d/m/Y") }}
+                
+                {% if auteur %}
+                    par <strong>{{ auteur }}</strong>
+                {% else %}
+                    par <strong>Auteur inconnu</strong>
+                {% endif %}
+
+                - Catégorie : {{ article['categorie'] }}
+            </small>
+        </p>
+    </header>
+
+    {% if article['url_image'] %}
+    <div class="article-image" style="margin: 20px 0;">
+        <img src="{{ article.url_image }}" alt="Image pour l'article : {{ article.titre }}"
+            style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
+    {% endif %}
+
+
+    {% if article['resumer'] %}
+    <div class="article-resumer"
+        style="font-weight: bold; margin-bottom: 20px; padding: 15px; background-color: #f9f9f9;">
+
+        {{ article['resumer'] | raw }}
+    </div>
+    {% endif %}
+
+    <div class="article-contenu" style="line-height: 1.6;">
+
+        {{ article['contenue'] | raw }}
+    </div>
+
+    <br>
+    <div class="actions" style="margin-top: 30px;">
+
+        <a href="{{ url_for('articles') }}" class="btn">Retour à la liste</a>
+    </div>
+</article>
+{% endblock %}

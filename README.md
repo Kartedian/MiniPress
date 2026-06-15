@@ -12,24 +12,24 @@ permet uniquement de naviguer, rechercher et consulter l’ensemble des articles
 - Une partie Admin permettant de créer des articles en saisissant les données dans des
 formulaires HTML. Cette partie admin est réservée aux utilisateurs enregistrés.
 
-| Fonctionnalité                                    | État | Développeur |
-| ------------------------------------------------- | ---- | ----------- |
-| 1. Création d'un article                             |      |             |
-| 2. Création d'un article avec sélection de catégorie |      |             |
-| 3. Liste des articles triés par date décroissante    |      |             |
-| 4. Filtrage des articles par catégorie               |      |             |
-| 5. Création de catégories                            |      |             |
-| 6. Authentification des utilisateurs                 |      |             |
-| 7. Contrôle d'accès aux fonctionnalités protégées    |      |             |
-| 8. Gestion des auteurs des articles                  |      |             |
-| 9. API - Liste des catégories                        |      |             |
-| 10. API - Liste des articles                          |      |             |
-| 11. API - Articles d'une catégorie                    |      |             |
-| 12. API - Article complet                             |      |             |
-| 13. API - Articles d'un auteur                        |      |             |
-| 14. Publication / Dépublication des articles          |      |             |
-| 15. Création d'utilisateurs par l'administrateur      |      |             |
-| 16. Tri des articles dans l'API (date/auteur)         |      |             |
+| Fonctionnalité                                        | État | Développeur |
+| ------------------------------------------------------| ---- | ----------- |
+| 1. Création d'un article                              | ✅ |     Walid    |
+| 2. Création d'un article avec sélection de catégorie  | ✅ |     Walid    |
+| 3. Liste des articles triés par date décroissante     | ✅ |     Walid    |
+| 4. Filtrage des articles par catégorie                | ✅ |     Walid    |
+| 5. Création de catégories                             | ✅ |     Walid    |
+| 6. Authentification des utilisateurs                  | ✅ |     Walid    |
+| 7. Contrôle d'accès aux fonctionnalités protégées     | ✅ |     Walid    |
+| 8. Gestion des auteurs des articles                   | ✅ |     Walid    |
+| 9. API - Liste des catégories                         | ✅ | Alexandre |
+| 10. API - Liste des articles                          | ✅ | Alexandre |
+| 11. API - Articles d'une catégorie                    | ✅ | Alexandre |
+| 12. API - Article complet                             | ✅ | Alexandre |
+| 13. API - Articles d'un auteur                        | ✅ | Alexandre |
+| 14. Publication / Dépublication des articles          | ✅ |     Walid    |
+| 15. Création d'utilisateurs par l'administrateur      | ✅ |     Walid    |
+| 16. Tri des articles dans l'API (date/auteur)         | ✅ | Alexandre |
 
 ---
 

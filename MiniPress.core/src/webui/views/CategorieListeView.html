@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+
+{% block title %}Liste Categorie - MiniPress{% endblock %}
+
+{% block content %}
+<h1>Liste des Catégories</h1>
+<br>
+<ul>
+    {% for categorie in categories %}
+    <li><a href="{{ url_for('categorie_detail', {'id': categorie.id})}}">{{ categorie.libelle }}</a></li>
+    {% endfor %}
+</ul>
+<br>
+
+{% if isAuthenticated %}
+<a href="{{ url_for('categorie_create') }}">Créer une nouvelle catégorie</a>
+{% endif %}
+{% endblock %}

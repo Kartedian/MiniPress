@@ -1,0 +1,17 @@
+{
+    "name": "dwm/minipress",
+    "autoload": {
+        "psr-4": {
+            "Dwm\\MiniPress\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.8",
+        "slim/twig-view": "^3.4",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/container": "^10.0|^11.0|^12.0",
+        "ramsey/uuid": "^4.0"
+    }
+}
