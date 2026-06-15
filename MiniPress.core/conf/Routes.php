@@ -70,5 +70,17 @@ return function (App $app): App {
     $app->get('/api/categories/{id_categ}/articles', GetArticlesFromCategoriesApi::class);
     $app->get('/api/auteurs/{id}/articles', GetArticlesByAuteurIdApi::class);
 
+    $app->options('/{routes:.+}', function (Request $request, Response $response, array $args) {
+        return $response;
+    });
+    
+    $app->add(function (Request $request, $handler) {
+        $response = $handler->handle($request);
+        return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    });
+    
     return $app;
 };
