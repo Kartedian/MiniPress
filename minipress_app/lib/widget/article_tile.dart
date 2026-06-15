@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/article.dart';
+import '../models/article_preview.dart';
 
 class ArticleTile extends StatelessWidget {
-  final Article article;
+  final ArticlePreview article;
   final VoidCallback onTap;
 
   const ArticleTile({super.key, required this.article, required this.onTap});
@@ -21,11 +21,11 @@ class ArticleTile extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         title: Text(
-          article.title,
+          article.titre,
           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          '${_formatDate(article.createdAt)} · ${article.author}',
+          '${_formatDate(article.createdAt)} · ${article.auteur.name}',
           style: theme.textTheme.bodySmall,
         ),
         trailing: const Icon(Icons.chevron_right),
