@@ -17,17 +17,38 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         const articles = await fetchPromise;
 
 
+        // On récupère les détails de chaque article pour obtenir le résumé
+        const articlesComplets = await Promise.all(
+            articles.map(async (art) => {
+                // On extrait l'ID de l'URL pour pouvoir faire le fetch individuel
+                const idExtrait = art.url ? art.url.split('/').pop() : '';
+                
+                try {
+                    if (idExtrait) {
+                        // 'Appel a l'API pour obtenir les détails de l'article
+                        const details = await fetchArticle(idExtrait);
+                        return { ...art, ...details, idExtrait };
+                    }
+                    return { ...art, idExtrait };
+                } catch (err) {
+                    console.error(`Impossible de charger les détails de l'article ${idExtrait}`);
+                    return { ...art, idExtrait };
+                }
+            })
+        );
+
+
+
         // Filtrage des articles en fonction du mot-clé de recherche
-        const articlesFiltresParMotCle = articles.filter(art => {
+        const articlesFiltresParMotCle = articlesComplets.filter(art => {
             if (!currentKeyword) return true; 
             
             const recherche = currentKeyword.toLowerCase();
             const titreContient = art.titre ? art.titre.toLowerCase().includes(recherche) : false;
             
-            const texteResume = art.resumer || art.resume || '';
-            const resumeContient = texteResume.toLowerCase().includes(recherche);
+            const texteResume = art.resumer ? art.resumer.toLowerCase().includes(recherche) : false;
 
-            return titreContient || resumeContient;
+            return titreContient || texteResume;
         });
 
 
