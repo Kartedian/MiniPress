@@ -16,6 +16,8 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
     try {
         const articles = await fetchPromise;
 
+
+        // Filtrage des articles en fonction du mot-clé de recherche
         const articlesFiltresParMotCle = articles.filter(art => {
             if (!currentKeyword) return true; 
             
@@ -38,8 +40,8 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
             return currentSortOrder === 'desc' ? dateB - dateA : dateA - dateB;
         });
 
-
         
+        // Formatage des articles pour le template
         const articlesFormates = articlesTries.map(art => {
             const idExtrait = art.url ? art.url.split('/').pop() : '';
             return {
