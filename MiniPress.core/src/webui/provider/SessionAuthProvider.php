@@ -15,12 +15,6 @@ class SessionAuthProvider implements AuthProviderInterface
 {
     private DatabaseServiceInterface $catalogueService;
 
-    private const SESSION_USER_ID_KEY = 'auth_user_id';
-
-    private const SESSION_LAST_ACTIVITY_KEY = 'auth_last_activity';
-
-    private const SESSION_TIMEOUT = 1800;
-
     public function __construct(DatabaseServiceInterface $catalogueService)
     {
         $this->catalogueService = $catalogueService;
@@ -57,7 +51,7 @@ class SessionAuthProvider implements AuthProviderInterface
 
     public static function logout(): void
     {
-        $_SESSION = [];
+        session_unset();
         session_destroy();
     }
 

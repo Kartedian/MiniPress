@@ -10,6 +10,7 @@ use Dwm\MiniPress\application_core\domain\entities\UserEntity;
 use Dwm\MiniPress\infrastructure\User;
 use Ramsey\Uuid\Uuid;
 use Dwm\MiniPress\application_core\domain\exceptions\DatabaseException;
+use Dwm\MiniPress\application_core\application\usecases\UserRole;
 use Override;
 use Throwable;
 
@@ -102,6 +103,9 @@ class DatabaseService implements DatabaseServiceInterface
         ]);
 
         if ($article) {
+            if(User::where('id', $idAuteur)->first()->role === UserRole::USER->value) {
+                User::where('id', $idAuteur)->update(['role' => UserRole::AUTHOR->value]);
+            }
             return new ArticleEntity(
                 $article->id,
                 $article->titre,
