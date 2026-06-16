@@ -19,39 +19,50 @@ class CreateArticleAction
 
     public function __invoke(Request $request, Response $response): Response
     {
-        if ($request->getMethod() === 'POST') {
-            $parsedBody = $request->getParsedBody();
+        if($this->auth::isAuthenticated()){
+            if ($request->getMethod() === 'POST') {
+                $parsedBody = $request->getParsedBody();
 
-            if (!CsrfTokenProvider::validateToken($parsedBody['csrf_token'] ?? '')) {
-                throw new HttpBadRequestException($request, "Jeton CSRF invalide");
+                if (!CsrfTokenProvider::validateToken($parsedBody['csrf_token'] ?? '')) {
+                    throw new HttpBadRequestException($request, "Jeton CSRF invalide");
+                }
+
+                $uploadedFiles = $request->getUploadedFiles();
+                $imageFile = $uploadedFiles['image_file'] ?? null;
+
+                $imagePath = null;
+
+                if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
+                    $imagePath = $this->db->stockerImageArticle($imageFile);
+                }
+
+                $userId = $this->auth->getUserId();
+                $article = $this->db->creerArticle(
+                    $parsedBody['titre'],
+                    $parsedBody['resumer'] ?? null,
+                    $parsedBody['contenue'] ?? null,
+                    (int)$parsedBody['categorie'],
+                    $imagePath,
+                    $userId
+                );
+
+                return $response->withHeader('Location', "/article/" . $article->id)->withStatus(302);
             }
 
-            $uploadedFiles = $request->getUploadedFiles();
-            $imageFile = $uploadedFiles['image_file'] ?? null;
-
-            $imagePath = null;
-
-            if ($imageFile && $imageFile->getError() === UPLOAD_ERR_OK) {
-                $imagePath = $this->db->stockerImageArticle($imageFile);
-            }
-
-            $userId = $this->auth->getUserId();
-            $article = $this->db->creerArticle(
-                $parsedBody['titre'],
-                $parsedBody['resumer'] ?? null,
-                $parsedBody['contenue'] ?? null,
-                (int)$parsedBody['categorie'],
-                $imagePath,
-                $userId
-            );
-
-            return $response->withHeader('Location', "/article/" . $article->id)->withStatus(302);
+        if ($request->getMethod() === 'GET') {
+            $csrfToken = CsrfTokenProvider::generateToken();
+            $view = Twig::fromRequest($request);
+            
+            return $view->render($response, 'CreateArticleView.html', [
+                'csrf_token' => $csrfToken,
+                'categories' => $this->db->getCategories()
+            ]);  
         }
-
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'CreateArticleView.html', [
-            'categories' => $this->db->getCategories(),
-            'csrf_token' => CsrfTokenProvider::generateToken()
-        ]);
+        
+            throw new HttpBadRequestException($request, "Unsupported HTTP method");
+        }
+        return $response
+            ->withHeader('Location', '/login')
+            ->withStatus(302);
     }
 }
