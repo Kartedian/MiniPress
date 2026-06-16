@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "esbuild": "0.17.18",
+    "handlebars": "^4.7.9"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --sourcemap --target=es2015 --outfile=dist/bundle.js",
+    "dev": "esbuild src/index.ts --bundle --sourcemap --target=es2015 --outfile=dist/bundle.js --watch"
+  }
+}

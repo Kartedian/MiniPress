@@ -4,3 +4,6 @@
 *.ini
 .vscode
 *.lock
+node_modules/
+dist/
+package-lock.json

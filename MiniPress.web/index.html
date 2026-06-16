@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniPress</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+        .article-item { margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
+        .article-meta { color: #666; font-size: 0.9em; }
+        aside { float: left; width: 200px; margin-right: 2rem; }
+        main { overflow: hidden; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MiniPress Web</h1>
+    </header>
+
+    <div id="layout">
+        <aside id="sidebar">
+            <!-- Liste des catégories -->
+        </aside>
+        <main id="app">
+            <p>Chargement des articles en cours...</p>
+        </main>
+    </div>
+
+    <script src="dist/bundle.js"></script>
+
+</body>
+</html>
