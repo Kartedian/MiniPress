@@ -22,7 +22,8 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
         const articlesComplets = await Promise.all(
             articles.map(async (art) => {
                 // On extrait l'ID de l'URL pour pouvoir faire le fetch individuel
-                const idExtrait = art.url ? art.url.split('/').pop() : '';
+                const urlNettoyee = art.url ? art.url.replace(/\/$/, '') : '';
+                const idExtrait = urlNettoyee ? urlNettoyee.split('/').pop() : '';
                 
                 try {
                     if (idExtrait) {
