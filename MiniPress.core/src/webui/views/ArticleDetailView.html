@@ -48,7 +48,8 @@
 
     {% if article['url_image'] %}
     <div class="article-image" style="margin: 20px 0;">
-        <img src="{{ article.url_image }}" alt="Image pour l'article : {{ article.titre }}"
+        {# Génère <img src="/images/ab/cd/12345.jpg" ...> #}
+        <img src="{{ article['url_image'] }}" alt="Image pour l'article : {{ article['titre'] }}"
             style="max-width: 100%; height: auto; border-radius: 8px;">
     </div>
     {% endif %}

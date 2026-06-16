@@ -11,6 +11,7 @@ use Dwm\MiniPress\infrastructure\User;
 use Ramsey\Uuid\Uuid;
 use Dwm\MiniPress\application_core\domain\exceptions\DatabaseException;
 use Dwm\MiniPress\application_core\application\usecases\UserRole;
+use Psr\Http\Message\UploadedFileInterface;
 use Override;
 use Throwable;
 
@@ -164,6 +165,51 @@ class DatabaseService implements DatabaseServiceInterface
             'libelle' => $categorie->libelle,
             'description' => $categorie->description
         ];
+    }
+
+
+    public static function stockerImageArticle(UploadedFileInterface $file): string
+    {
+        $originalName = $file->getClientFilename();
+        $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, ['png', 'jpg', 'jpeg', 'webp'])) {
+            throw new \Exception('Format d\'image non supporté (PNG, JPG, WEBP uniquement).');
+        }
+
+        $uploadsBaseDir = __DIR__ . '/../../../../images';
+
+        $storedName = null;
+        $maxAttempts = 10;
+
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            $candidate = bin2hex(random_bytes(8)); 
+            $exists = Article::where('url_image', 'LIKE', "%" . $candidate . "%")->exists();
+            
+            if (!$exists) {
+                $storedName = $candidate;
+                break;
+            }
+        }
+
+        if ($storedName === null) {
+            throw new \Exception('Impossible de générer un nom unique pour l\'image.');
+        }
+
+        $dir1 = substr($storedName, 0, 2);
+        $dir2 = substr($storedName, 2, 2);
+        $targetDir = $uploadsBaseDir . '/' . $dir1 . '/' . $dir2;
+
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        $fileName = $storedName . '.' . $ext;
+        $targetPath = $targetDir . '/' . $fileName;
+
+        $file->moveTo($targetPath);
+
+        return '/images/' . $dir1 . '/' . $dir2 . '/' . $fileName;
     }
 
 

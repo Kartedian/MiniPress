@@ -5,6 +5,7 @@ namespace Dwm\MiniPress\application_core\application\usecases;
 use Dwm\MiniPress\application_core\domain\entities\ArticleEntity;
 use Dwm\MiniPress\application_core\domain\entities\CategorieEntity;
 use Dwm\MiniPress\application_core\domain\entities\UserEntity;
+use Psr\Http\Message\UploadedFileInterface;
 
 interface DatabaseServiceInterface
 {
@@ -27,6 +28,8 @@ interface DatabaseServiceInterface
     public static function updatePublishStatus(string $id, int $public);
 
     public static function getCategorieById(int $id): ?array;
+
+    public static function stockerImageArticle(\Psr\Http\Message\UploadedFileInterface $file): string;
 
 
     

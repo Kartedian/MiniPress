@@ -4,6 +4,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Views\Twig;
+use Slim\Exception\HttpNotFoundException;
 
 //WebUI
 use Dwm\MiniPress\webui\ArticleController;
@@ -81,6 +82,30 @@ return function (App $app): App {
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     });
+
+
+    // Route pour afficher les images depuis le dossier uploads
+    $app->get('/images/{dir1}/{dir2}/{filename}', function (Request $request, Response $response, array $args) {
+        $filePath = __DIR__ . '/../images/' . $args['dir1'] . '/' . $args['dir2'] . '/' . $args['filename'];
+
+        if (!file_exists($filePath)) {
+            throw new HttpNotFoundException($request, "Image introuvable");
+        }
+
+        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+        $contentType = match($ext) {
+            'png' => 'image/png',
+            'webp' => 'image/webp',
+            default => 'image/jpeg',
+        };
+
+        $response->getBody()->write(file_get_contents($filePath));
+
+        return $response
+            ->withHeader('Content-Type', $contentType)
+            ->withStatus(200);
+    });
+
     
     return $app;
 };
