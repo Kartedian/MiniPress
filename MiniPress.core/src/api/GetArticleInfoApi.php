@@ -20,20 +20,20 @@ class GetArticleInfoApi
         $author = $this->catalogueService::getAuthorById($article['id_auteur']);
 
         $payload = json_encode([
-            'id' => $article['id'],
-            'titre' => $article['titre'],
-            'resumer' => $article['resumer'],
-            'contenue' => $article['contenue'],
-            'date' => $article['date'],
-            'categorie' => $article['categorie'],
-            'url_image' => $article['url_image'],
-            'auteur' => [
-                'id' => $author['id'],
-                'user_id' => $author['user_id'],
-                'name' => $author['name']
-            ],
-            'published' => $article['published']
-        ]);
+    'id' => $article['id'] ?? null,
+    'titre' => $article['titre'] ?? null,
+    'resumer' => $article['resumer'] ?? null,
+    'contenue' => $article['contenue'] ?? null,
+    'date' => $article['date'] ?? null, 
+    'categorie' => $article['categorie'] ?? null,
+    'url_image' => $article['url_image'] ?? null,
+    'auteur' => [
+        'id' => $author['id'] ?? null,
+        'user_id' => $author['user_id'] ?? null,
+        'name' => $author['name'] ?? 'Inconnu'
+    ],
+    'published' => $article['published'] ?? null
+]);
         
         $response->getBody()->write($payload);
         

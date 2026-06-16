@@ -39,3 +39,5 @@ export async function fetchArticlesByAuteur(auteur: string): Promise<Article[]> 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
 }
+
+

@@ -16,6 +16,7 @@ async function renderArticles(fetchPromise: Promise<any[]>) {
     try {
         const articles = await fetchPromise;
 
+        
 
         // On récupère les détails de chaque article pour obtenir le résumé
         const articlesComplets = await Promise.all(
