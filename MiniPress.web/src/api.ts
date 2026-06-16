@@ -1,6 +1,6 @@
 import { Article, Categorie } from './types';
 
-const API_URL = 'http://docketu.iutnc.univ-lorraine.fr::13887/api';
+const API_URL = 'http://docketu.iutnc.univ-lorraine.fr::13887/api';  
 
 
 // Méthode pour récupérer tous les articles depuis l'API
@@ -24,6 +24,7 @@ export async function fetchCategories(): Promise<Categorie[]> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
 }
+
 
 // Méthode pour récupérer les articles d'une catégorie spécifique depuis l'API
 export async function fetchArticlesByCategorie(id: string): Promise<any[]> {

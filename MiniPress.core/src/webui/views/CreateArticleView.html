@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Créer une nouvelle Article</h1>
-    <form method="post" action="{{ url_for('article_create')}}">
+    <form method="post" action="{{ url_for('article_create')}}" enctype="multipart/form-data">
         <div class="_titre">
             <label for="titre">Titre</label>
             <input type="text" id="titre" name="titre" required>
@@ -30,13 +30,13 @@
             </select>
         </div>
 
-        <div class="_url_image">
-            <label for="url_image">URL dell'immagine dell'articolo :</label>
+        <div class="_image_file">
+            <label for="image_file">Choisir une image pour l'article :</label>
             <input 
-                type="url" 
-                id="url_image" 
-                name="url_image" 
-                placeholder="https://exemple.com/photo.jpg"
+                type="file" 
+                id="image_file" 
+                name="image_file" 
+                accept="image/png, image/jpeg, image/webp"
                 class="form-control"
             >
         </div>
@@ -45,4 +45,5 @@
         <div>
             <button type="submit">Créer l'article</button>
         </div>
+    </form>
 {% endblock %}

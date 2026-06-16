@@ -3,7 +3,7 @@ import { fetchArticles } from './api';
 import { Article } from './types';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('MiniPress.web chargé');
+    console.log('MiniPress.web charger');
     
     const appContainer = document.getElementById('app');
     if (!appContainer) return;
