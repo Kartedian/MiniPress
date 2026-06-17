@@ -3,11 +3,10 @@
 {% block title %}Accueil - MiniPress{% endblock %}
 
 {% block content %}
-<h1>Welcome in MiniPress!!</h1>
-    <ul>
-        <li><a href="{{ url_for('categories') }}">Categories</a></li>
-        <li><a href="{{ url_for('articles') }}">Articles</a></li>
-        <li><a href="{{ url_for('article_create') }}">Creer un'Article</a></li>
-    </ul>
-
+<h1>Bienvenue sur MiniPress</h1>
+<ul class="list-plain">
+    <li><a href="{{ url_for('categories') }}">Categories</a></li>
+    <li><a href="{{ url_for('articles') }}">Articles</a></li>
+    <li><a href="{{ url_for('article_create') }}">Créer un article</a></li>
+</ul>
 {% endblock %}

@@ -3,45 +3,42 @@
 {% block title %}Inscription - MiniPress{% endblock %}
 
 {% block content %}
-<div class="register-container" style="max-width: 500px; margin: 0 auto; padding: 20px;">
+<div class="auth-container card">
     <h1>Créer un compte</h1>
 
     {# Affichage dynamique des messages d'erreur du contrôleur #}
     {% if error %}
-        <div class="alert alert-danger" style="background-color: #ffebee; color: #c62828; padding: 10px; margin-bottom: 20px; border-radius: 4px; border: 1px solid #ef9a9a;">
+        <div class="alert alert-danger">
             <strong>Erreur :</strong> {{ error }}
         </div>
     {% endif %}
 
     {# Le formulaire renvoie les données en POST sur la même route #}
     <form method="POST" action="">
-        
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="name" style="display: block; margin-bottom: 5px;">Nom complet</label>
-            <input type="text" id="name" name="name" style="width: 100%; padding: 8px;" required>
+        <div class="form-group">
+            <label for="name">Nom complet</label>
+            <input type="text" id="name" name="name" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="email" style="display: block; margin-bottom: 5px;">Adresse Email</label>
-            <input type="email" id="email" name="email" style="width: 100%; padding: 8px;" required>
+        <div class="form-group">
+            <label for="email">Adresse Email</label>
+            <input type="email" id="email" name="email" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="password" style="display: block; margin-bottom: 5px;">Mot de passe</label>
-            <input type="password" id="password" name="password" style="width: 100%; padding: 8px;" required>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required>
         </div>
 
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label for="passwordConfirm" style="display: block; margin-bottom: 5px;">Confirmer le mot de passe</label>
-            <input type="password" id="passwordConfirm" name="passwordConfirm" style="width: 100%; padding: 8px;" required>
+        <div class="form-group">
+            <label for="passwordConfirm">Confirmer le mot de passe</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm" required>
         </div>
 
-        <button type="submit" class="btn" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-            S'inscrire
-        </button>
+        <button type="submit" class="btn btn-block">S'inscrire</button>
     </form>
 
-    <div style="margin-top: 20px; text-align: center;">
+    <div class="auth-footer">
         <p>Déjà un compte ? <a href="{{ url_for('login') }}">Se connecter</a></p>
     </div>
 </div>
