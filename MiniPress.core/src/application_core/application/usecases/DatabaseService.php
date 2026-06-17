@@ -63,7 +63,7 @@ class DatabaseService implements DatabaseServiceInterface
             'titre' => $article->titre,
             'resumer' => $article->resumer,
             'contenue' => $article->contenue,
-            $article->date ? new \DateTime($article->date) : new \DateTime(),
+            'date' => $article->date ? $article->date->format('Y-m-d H:i:s') : date('Y-m-d H:i:s'),
             'categorie' => $article->categorie,
             'url_image' => $article->url_image,
             'id_auteur' => $article->id_auteur,

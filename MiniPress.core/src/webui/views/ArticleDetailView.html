@@ -8,8 +8,7 @@
         <h1>{{ article['titre'] }}</h1>
         
         {% if is_owner %}
-        <div class="publication-control"
-            style="margin: 15px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+        <div class="publication-control">
             <p>Etat actuel: <strong>
                 {% if article['published'] == 1 %}
                     Public
@@ -54,23 +53,17 @@
     </div>
     {% endif %}
 
-
     {% if article['resumer'] %}
-    <div class="article-resumer"
-        style="font-weight: bold; margin-bottom: 20px; padding: 15px; background-color: #f9f9f9;">
-
+    <div class="article-resumer">
         {{ article['resumer'] | raw }}
     </div>
     {% endif %}
 
-    <div class="article-contenu" style="line-height: 1.6;">
-
+    <div class="article-contenu">
         {{ article['contenue'] | raw }}
     </div>
 
-    <br>
-    <div class="actions" style="margin-top: 30px;">
-
+    <div class="actions">
         <a href="{{ url_for('articles') }}" class="btn">Retour à la liste</a>
     </div>
 </article>

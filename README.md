@@ -72,14 +72,14 @@ dans l’interface utilisateur.
 
 | Fonctionnalité                                      | État | Développeur |
 | --------------------------------------------------- | ---- | ----------- |
-| 1. Affichage de la liste des articles                  |      |             |
-| 2. Affichage de la liste des catégories                |      |             |
-| 3. Affichage des articles d'une catégorie              |      |             |
-| 4. Affichage complet d'un article                      |      |             |
-| 5. Affichage des articles d'un auteur                  |      |             |
-| 6. Tri des articles par date (croissant / décroissant) |      |             |
-| 7. Recherche par mot-clé dans le titre                 |      |             |
-| 8. Recherche par mot-clé dans le titre ou le résumé    |      |             |
+| 1. Affichage de la liste des articles                  |   ✅  | Jules            |
+| 2. Affichage de la liste des catégories                |   ✅  | Jules            |
+| 3. Affichage des articles d'une catégorie              |   ✅  | Jules            |
+| 4. Affichage complet d'un article                      |   ✅  | Jules            |
+| 5. Affichage des articles d'un auteur                  |   ✅  | Jules            |
+| 6. Tri des articles par date (croissant / décroissant) |   ✅  | Jules            |
+| 7. Recherche par mot-clé dans le titre                 |   ✅  | Jules            |
+| 8. Recherche par mot-clé dans le titre ou le résumé    |   ✅  | Jules            |
 
 ---
 

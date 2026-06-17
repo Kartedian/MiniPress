@@ -3,10 +3,10 @@
 {% block title %}{{ libelle }} - MiniPress{% endblock %}
 
 {% block content %}
-<h1>{{ libelle }}</h1>
-<h2>Description</h2>
-<p>{{ description }}</p>
+<div class="categorie-detail">
+    <h1>{{ libelle }}</h1>
+    <p class="description">{{ description }}</p>
 
-<a href="{{ url_for('categories')}}">Retour</a>
-    
+    <a href="{{ url_for('categories')}}" class="btn btn-secondary">Retour</a>
+</div>
 {% endblock %}
