@@ -24,6 +24,7 @@ class Article {
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
+    final rawUrlImage = json['url_image'] as String?;
     return Article(
       id: (json['id'] ?? '').toString(),
       titre: (json['titre'] ?? '').toString(),
@@ -33,7 +34,10 @@ class Article {
       categorie: json['categorie'] != null
           ? int.tryParse(json['categorie'].toString())
           : null,
-      urlImage: json['url_image'] as String?,
+      // 📸 Reconstitution automatique de l'URL absolue
+      urlImage: rawUrlImage != null && rawUrlImage.isNotEmpty
+          ? 'http://docketu.iutnc.univ-lorraine.fr:13887$rawUrlImage'
+          : null,
       auteur: Auteur.fromJson(json['auteur'] as Map<String, dynamic>),
       published: json['published'] != null
           ? int.tryParse(json['published'].toString())

@@ -103,17 +103,14 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                     children: [
                       Text(
                         _article!.titre,
-                        style: theme.textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       Text.rich(
                         TextSpan(
                           style: metaStyle,
                           children: [
-                            TextSpan(
-                                text:
-                                    '${_formatDate(_article!.createdAt)} · '),
+                            TextSpan(text: '${_formatDate(_article!.createdAt)} · '),
                             TextSpan(
                               text: _article!.auteur.name,
                               style: authorStyle,
@@ -128,12 +125,31 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                       ),
                                     ),
                             ),
-                            if (_categoryName != null)
-                              TextSpan(text: ' · $_categoryName'),
+                            if (_categoryName != null) TextSpan(text: ' · $_categoryName'),
                           ],
                         ),
                       ),
                       const Divider(height: 24),
+
+                      if (_article!.urlImage != null) ...[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            _article!.urlImage!,
+                            width: double.infinity,
+                            height: 220,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Container(
+                              width: double.infinity,
+                              height: 120,
+                              color: Colors.grey[200],
+                              child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16), // Espacement sous l'image
+                      ],
+
                       if (_article!.contenue != null)
                         Text(
                           _article!.contenue!,
