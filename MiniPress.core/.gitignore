@@ -5,3 +5,4 @@
 .vscode
 *.lock
 .database_env
+/images/

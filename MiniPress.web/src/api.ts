@@ -1,6 +1,6 @@
 import { Article, Categorie } from './types';
 
-const API_URL = 'http://docketu.iutnc.univ-lorraine.fr::13887/api';  
+const API_URL = 'http://docketu.iutnc.univ-lorraine.fr:13887/api';  
 
 
 // Méthode pour récupérer tous les articles depuis l'API
