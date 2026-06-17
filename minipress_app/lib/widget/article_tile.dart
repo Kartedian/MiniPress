@@ -20,6 +20,19 @@ class ArticleTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: ListTile(
         onTap: onTap,
+        leading: article.urlImage != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.network(
+                  article.urlImage!,
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.image_not_supported, size: 40),
+                ),
+              )
+            : null,
         title: Text(
           article.titre,
           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
