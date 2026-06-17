@@ -83,6 +83,20 @@ dans l’interface utilisateur.
 
 ---
 
+Lien docketu
+
+Application core
+http://docketu.iutnc.univ-lorraine.fr:13887/
+
+Adminer
+http://docketu.iutnc.univ-lorraine.fr:13888/
+
+application web
+http://docketu.iutnc.univ-lorraine.fr:13889/
+
+
+
+
 ## Équipe
 
 *  Walid BOUAOUKEL
