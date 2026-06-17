@@ -187,7 +187,15 @@ async function renderArticleUnique(idArticle: string) {
                     <span><strong>Auteur :</strong> <a href="#/auteurs/{{auteur.id}}" style="color: #007BFF; text-decoration: none;">{{auteur.name}}</a></span> | 
                     <span><strong>Date :</strong> {{date.date}}</span>
                 </div>
+
+                {{#if url_image}}
+                <div class="article-full-image" style="margin-bottom: 1.5rem;">
+                    <img src="http://docketu.iutnc.univ-lorraine.fr:13887{{url_image}}" alt="{{titre}}" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 8px; object-fit: cover;">
+                </div>
+                {{/if}}
+
                 <div class="article-content" style="line-height: 1.6; font-size: 1.1em;">
+
                     <p><em>{{resumer}}</em></p>
                     <p>{{contenue}}</p>
                 </div>
