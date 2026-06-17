@@ -25,11 +25,11 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      id: json['id'] as String,
-      titre: json['titre'] as String,
+      id: (json['id'] ?? '').toString(),
+      titre: (json['titre'] ?? '').toString(),
       resumer: json['resumer'] as String?,
       contenue: json['contenue'] as String?,
-      date: json['date'] as String,
+      date: (json['date'] ?? '').toString(),
       categorie: json['categorie'] != null
           ? int.tryParse(json['categorie'].toString())
           : null,
@@ -41,5 +41,5 @@ class Article {
     );
   }
 
-  DateTime get createdAt => DateTime.parse(date);
+  DateTime get createdAt => DateTime.tryParse(date) ?? DateTime(0);
 }

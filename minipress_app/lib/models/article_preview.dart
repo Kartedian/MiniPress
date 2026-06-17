@@ -17,14 +17,14 @@ class ArticlePreview {
 
   factory ArticlePreview.fromJson(Map<String, dynamic> json) {
     return ArticlePreview(
-      titre: json['titre'] as String,
-      date: json['date'] as String,
+      titre: (json['titre'] ?? '').toString(),
+      date: (json['date'] ?? '').toString(),
       auteur: Auteur.fromJson(json['auteur'] as Map<String, dynamic>),
-      url: json['url'] as String,
+      url: (json['url'] ?? '').toString(),
       urlImage: json['url_image'] as String?,
     );
   }
 
   String get id => url.split('/').where((s) => s.isNotEmpty).last;
-  DateTime get createdAt => DateTime.parse(date);
+  DateTime get createdAt => DateTime.tryParse(date) ?? DateTime(0);
 }

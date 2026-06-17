@@ -4,7 +4,7 @@ import '../models/article_preview.dart';
 import '../models/category.dart';
 
 class ApiClient {
-  static const String _baseUrl = 'http://localhost:13887/api';
+  static const String _baseUrl = 'http://docketu.iutnc.univ-lorraine.fr:13887/api';
 
   final Dio _dio = Dio(
     BaseOptions(
