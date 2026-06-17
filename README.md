@@ -48,14 +48,14 @@ docker de MiniPress.core.
 
 | Fonctionnalité                                      | État | Développeur |
 | --------------------------------------------------- | ---- | ----------- |
-| 1. Affichage de la liste des articles                  |      |             |
-| 2. Affichage de la liste des catégories                |      |             |
-| 3. Affichage des articles d'une catégorie              |      |             |
-| 4. Affichage complet d'un article                      |      |             |
-| 5. Affichage des articles d'un auteur                  |      |             |
-| 6. Tri des articles par date (croissant / décroissant) |      |             |
-| 7. Recherche par mot-clé dans le titre                 |      |             |
-| 8. Recherche par mot-clé dans le titre ou le résumé    |      |             |
+| 1. Affichage de la liste des articles                  |  ✅  |  Matteo  |
+| 2. Affichage de la liste des catégories                |  ✅  |  Matteo  |
+| 3. Affichage des articles d'une catégorie              |  ✅  |  Matteo  |
+| 4. Affichage complet d'un article                      |  ✅  |  Matteo  |
+| 5. Affichage des articles d'un auteur                  |  ✅  |  Matteo  |
+| 6. Tri des articles par date (croissant / décroissant) |  ✅  |  Matteo  |
+| 7. Recherche par mot-clé dans le titre                 |  ✅  |  Matteo  |
+| 8. Recherche par mot-clé dans le titre ou le résumé    |  ✅  |  Matteo  |
 
 ---
 
